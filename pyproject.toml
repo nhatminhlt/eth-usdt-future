@@ -1,0 +1,22 @@
+[project]
+name = "solfut"
+version = "0.1.0"
+description = "SOLUSDT Perpetual Futures trading system V2 (see .zcode/plans/PLAN.md)"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas", "numpy", "pyarrow", "pyyaml", "loguru", "requests",
+    "ccxt", "python-binance", "pytest", "scipy", "plotly<6",  # vectorbt 1.1.0 không tương thích plotly>=6 (scattermapbox renamed)
+]
+
+[project.optional-dependencies]
+backtest = ["vectorbt"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

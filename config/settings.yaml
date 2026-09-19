@@ -1,0 +1,96 @@
+# SOLUSDT Perpetual Futures — hằng số hệ thống V2
+# Nguồn sự thật: .zcode/plans/PLAN.md mục 0/0.1 (đo từ Binance API 2026-09-19).
+# Luật: code KHÔNG hardcode các con số này — luôn đọc từ file.
+# Verify lại exchangeInfo/fundingInfo định kỳ (tick/lot/minNotional/funding interval).
+
+project:
+  name: solusd-future-v2
+  timezone: UTC
+
+symbol: SOLUSDT
+
+contract:                       # verify từ fapi/v1/exchangeInfo (M0 đã đối chiếu 2026-09-20)
+  type: PERPETUAL
+  margin_asset: USDT
+  tick_size: 0.01
+  lot_step: 0.01
+  min_qty: 0.01
+  min_notional: 5.0
+  leverage_cap: 5
+  margin_mode: isolated
+  position_mode: one_way
+
+fees:                           # VIP0 + BNB -10% (giả định toàn plan — luật cứng 7)
+  pay_with_bnb: true
+  maker_pct: 0.018              # gốc 0.02
+  taker_pct: 0.045              # gốc 0.05
+  funding_discounted_by_bnb: false
+  sensitivity_range: 0.5        # ±50% — bao trùm cả hết-BNB (+11%)
+
+funding:
+  default_interval_hours: 8     # CHỈ là fallback — đọc động /fapi/v1/fundingInfo (luật 17)
+  blackout_minutes_around: 5
+
+market_anchor:                  # mốc đo 2026-09-19 @ SOL = 111.54 — re-calculate định kỳ
+  price: 111.54
+  atr14_d1: 4.96                # USDT (4.44%)
+  atr14_d1_pct: 4.44
+  median_d1_range_200d_pct: 3.09
+  atr14_m5: 0.224               # USDT (0.20%)
+  atr14_m5_pct: 0.20
+
+sessions:                       # UTC — thay session filter FX
+  trade_window: {start: "12:00", end: "21:00"}
+  skip_hours: [10, 11]
+  peak_hours: "13-19"
+  weekend_trading: false        # toggle grid kiểm chứng
+  flat_end_of_day: true         # Track A; Track B carry là ngoại lệ duy nhất
+
+risk:
+  equity_start: 50.0
+  risk_per_trade_pct: 1.0       # = 0.5 USDT/lệnh
+  sizing: percent_risk
+  daily_max_losses: 3
+  daily_stop_pct: -3.0
+  weekly_stop_pct: -6.0
+  cooldown_autoreset: true      # luật 5 — không đóng băng vĩnh viễn
+
+sl_distance:                    # anchor theo ATR/%, grid trong TRAIN
+  cap_formula: "max(3*ATR5m, 0.10*ADR20)"
+  grid_pct: [0.4, 1.2]
+
+tp:
+  r_multiple: 2.0
+  grid_r: [1.5, 3.0]
+
+entry_offset_ticks_grid: [5, 10, 15]
+magnet_block_pct: 0.15
+carter_confluence_pct: [0.10, 0.15]
+
+data:
+  dir: data
+  bulk_base: https://data.binance.vision/data/futures/um/monthly
+  rest_base: https://fapi.binance.com
+  download_extras: [metrics, liquidationSnapshot, bookDepth]   # core từ vòng 6
+  start: 2020-09-01
+
+strategies:
+  min_signals_train: 200        # luật 3 — không nới ngưỡng
+  conflict_same_direction: best_expectancy
+  conflict_opposite: skip_both
+
+cost_scenarios:                 # không định trước kịch bản chính (vòng 8)
+  maker_base: {entry: post_only_limit, tp: limit_maker, sl: stop_taker}
+  taker_worst: {entry: stop_market_taker, tp: limit_maker, sl: stop_taker}
+  primary_rule: "kịch bản chính của mỗi chiến thuật = execution nó sẽ trade thật"
+
+gates:
+  expectancy_min_r: 0.05        # sau chi phí, bootstrap CI không chứa 0
+  gross_must_be_positive: true
+  sqn_min: 2.0
+  pf_min: 1.3
+  trades_per_segment_min: 100
+  oos_trades_per_wf_window_min: 20
+  max_dd_pct: 25
+  min_signals_train: 200
+  min_trades_per_year: 300      # dưới mốc này → gộp chiến thuật cùng lớp

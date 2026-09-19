@@ -1,0 +1,13 @@
+pandas
+numpy
+pyarrow
+pyyaml
+loguru
+requests
+ccxt
+python-binance
+pytest
+scipy
+
+[backtest]
+vectorbt
