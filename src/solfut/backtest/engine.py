@@ -23,7 +23,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from solfut.backtest.account import size_position
+from solfut.backtest.account import size_position, size_position_governed
 from solfut.backtest.costs import CostModel, FundingSchedule
 
 
@@ -44,9 +44,14 @@ def run_backtest(
     patience_bars: int = 12,
     funding: FundingSchedule | None = None,
     equity_start: float | None = None,
+    sizing: str = "percent_risk",
+    risk_cap_pct: float = 2.0,
+    lev_cap_eff: float = 1.0,
+    contract: dict | None = None,
 ) -> BacktestResult:
     assert bound in ("sl_first", "tp_first"), "bound phải là sl_first | tp_first"
     assert scenario in ("maker_base", "taker_worst"), f"kịch bản lạ: {scenario}"
+    assert sizing in ("percent_risk", "governed"), f"sizing lạ: {sizing}"
     from solfut.config import settings
     if equity_start is None:
         equity_start = settings()["risk"]["equity_start"]
@@ -126,11 +131,15 @@ def run_backtest(
         if dist_pct <= 0:
             n_skip_size += 1
             continue
-        sizing = size_position(equity, dist_pct, entry_price)
-        if sizing.rejected:
+        if sizing == "percent_risk":
+            sizing_res = size_position(equity, dist_pct, entry_price, contract=contract)
+        else:
+            sizing_res = size_position_governed(equity, dist_pct, entry_price, risk_cap_pct=risk_cap_pct,
+                                                lev_cap_eff=lev_cap_eff, contract=contract)
+        if sizing_res.rejected:
             n_skip_size += 1
             continue
-        qty, notional, risk_usdt = sizing.qty, sizing.notional, sizing.risk_usdt
+        qty, notional, risk_usdt = sizing_res.qty, sizing_res.notional, sizing_res.risk_usdt
 
         fee_r, slip_r = cost.entry_cost(scenario)
         entry_fee, entry_slip = notional * fee_r, notional * slip_r

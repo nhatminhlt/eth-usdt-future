@@ -10,7 +10,7 @@ import pytest
 
 from solfut.backtest.costs import CostModel, FundingSchedule
 from solfut.backtest.engine import run_backtest
-from solfut.backtest.account import size_position
+from solfut.backtest.account import size_position, size_position_governed
 from solfut.backtest.metrics import compute_metrics, gates_check
 from solfut.backtest.monte_carlo import mc_drawdown, cost_shock_expectancy
 from solfut.backtest.random_baseline import random_baseline, edge_vs_random
@@ -50,6 +50,23 @@ def test_sizing_lot_rounding_and_leverage():
     # qty đủ min nhưng notional < 5 USDT → reject (SL 50%, price 100 → qty 0.01 = 1 USDT)
     r3 = size_position(50.0, 0.5, 100.0)
     assert r3.rejected == "notional_below_min"
+
+
+def test_sizing_governed():
+    """Governed sizing: notional = min(equity×lev, equity×risk_cap/sl) — lớp wide-stop."""
+    # SL 9.47%: percent-risk cho notional 5.28 (chạm sàn); governed → target 10.56, lot-round 0.10 SOL = 10 USDT
+    r = size_position_governed(50.0, 0.0947, 100.0, risk_cap_pct=2.0, lev_cap_eff=1.0)
+    assert r.notional == pytest.approx(10.0)
+    assert r.risk_usdt == pytest.approx(r.notional * 0.0947)   # worst-case
+    assert r.risk_usdt <= 50.0 * 0.02 + 1e-9
+    assert r.leverage <= 1.0 + 1e-9
+    # SL mỏng → risk-cap binding, notional ≤ 1× equity
+    r2 = size_position_governed(50.0, 0.01, 100.0, risk_cap_pct=2.0, lev_cap_eff=1.0)
+    assert r2.notional == pytest.approx(50.0)                   # min(50, 1/0.01=100) → 50
+    assert r2.leverage == pytest.approx(1.0)
+    # lev_cap_eff > cap hợp đồng → lỗi
+    with pytest.raises(AssertionError):
+        size_position_governed(50.0, 0.05, 100.0, lev_cap_eff=7.0)
 
 
 # ---------------------------------------------------------------- taker path

@@ -1,0 +1,35 @@
+{
+ "SOLUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 0.01,
+  "step_size": 0.01,
+  "min_qty": 0.01,
+  "min_notional": 5.0
+ },
+ "ETHUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 0.01,
+  "step_size": 0.001,
+  "min_qty": 0.001,
+  "min_notional": 20.0
+ },
+ "DOGEUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 1e-05,
+  "step_size": 1.0,
+  "min_qty": 1.0,
+  "min_notional": 5.0
+ },
+ "AVAXUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 0.001,
+  "step_size": 1.0,
+  "min_qty": 1.0,
+  "min_notional": 5.0
+ },
+ "_note": "Snapshot fapi/v1/exchangeInfo 2026-09-20 \u2014 d\u00f9ng cho backtest cross-symbol (minNotional ETH=20!)"
+}
