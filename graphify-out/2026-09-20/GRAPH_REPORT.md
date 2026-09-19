@@ -1,17 +1,17 @@
 # Graph Report - solusd-future-v2  (2026-09-20)
 
 ## Corpus Check
-- 70 files · ~1,392,436 words
+- 41 files · ~1,377,237 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 4 file(s) not represented in the graph (top: (none) 2, .csv 1, .jsonl 1)
+- Unclassified: 3 file(s) not represented in the graph (top: (none) 2, .csv 1)
 
 ## Summary
-- 4770 nodes · 5154 edges · 314 communities (245 shown, 69 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.93)
+- 4541 nodes · 4622 edges · 303 communities (237 shown, 66 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0cfa1d12`
+- Built from commit: `99990ae2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -79,7 +79,7 @@
 - Using Setups
 - Evaluation and Management
 - l+f't+I;: ... t.DI6.,1,23 'rll
-- pandas
+- download_data.py
 - Long
 - Mastering the Trade
 - Chapter 16 Summary : Managing Risk
@@ -94,13 +94,13 @@
 - Long Term Charts
 - Understanding Expectancy and Other Keys to Trading Success
 - Chapter 7 Summary : Signal Bars: Other Types
-- run_one
-- patterns.py
+- pandas
+- test_features.py
 - Putting It All Together
 - an in-depth look into the field of professional scalping
 - Chapter 2 Summary : Currency Trading Basics
 - Chapter 8 Summary : WORKING WITHYOUR BELIEFS
-- costs.py
+- numpy
 - Day Trading
 - 2 Trading Price Action - Trading Ranges.md
 - Trading Ranges
@@ -111,7 +111,7 @@
 - Chapter 11 Summary : Understand Position Sizing
 - Trading In The Zone Quiz and Test
 - Chapter 1 Summary : PART I Price Action
-- process_day
+- calibrate_costs.py
 - Chapter 2 Summary : Avoiding a Trading Tragedy
 - Chapter 10 Summary : The Trendy Kangaroo
 - The Art of Currency Trading Quiz and Test
@@ -119,7 +119,7 @@
 - Entry or Market Timing
 - Chapter 17 Summary : PART III Trends
 - +i O 'It..
-- hypothesis_fades.py
+- orderflow.py
 - future.md
 - 13-Trading-Price-Action-Reversals.md
 - The First Hour (The Opening Range)
@@ -196,12 +196,12 @@
 - PRICE ACTION
 - 97sSp s9kiP o.
 - t +¢rt,+ u<u>.</u>,
-- test_backtest.py
+- benchmark_engine.py
 - books.md
 - Contents
 - Jumping Out Too Early?
 - >AAAAAAAAA~
-- BinanceFuturesPublic
+- Appendix D: Continuous Futures Contracts*
 - Selected Resources
 - Chapter 3 Summary : Understand Market Structure
 - Mdoing. Most stocks-75 percent or more-tend to move
@@ -311,20 +311,6 @@
 - · O?
 - README.md
 - solfut
-- backtest/__init__.py
-- events.py
-- fetch_recent_klines
-- Chapter 10 Summary : Exchange-Traded Funds and Inverse Charts
-- gen_news_calendar.py
-- Continuation Patterns
-- Chapter 4 Summary : CONSISTENCY:A STATE OF MIND
-- Best Quotes from Trading In The Zone by Mark Douglas with Page Numbers
-- Chapter 5 Summary : THE DYNAMICS OFPERCEPTION
-- solfut_data
-- solfut_data_binance_client
-- solfut_data_downloader
-- solfut_data_quality
-- solfut_data_resample
 
 ## God Nodes (most connected - your core abstractions)
 1. `Trading Price Action Trends Questions` - 295 edges
@@ -339,21 +325,21 @@
 10. `1!+. OI��` - 53 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `main()` --uses--> `BinanceFuturesPublic`  [INFERRED]
-  scripts/download_data.py → src/solfut/data/binance_client.py
-- `test_funding_applied_when_crossing_mark()` --uses--> `CostModel`  [INFERRED]
-  tests/test_backtest.py → src/solfut/backtest/costs.py
-- `test_funding_applied_when_crossing_mark()` --uses--> `FundingSchedule`  [INFERRED]
-  tests/test_backtest.py → src/solfut/backtest/costs.py
-- `run_one()` --uses--> `FundingSchedule`  [INFERRED]
-  scripts/run_backtest_m4.py → src/solfut/backtest/costs.py
-- `run_one()` --calls--> `load_cost_model()`  [EXTRACTED]
-  scripts/run_backtest_m4.py → src/solfut/backtest/costs.py
+- `test_indicators_no_lookahead()` --calls--> `add_indicators()`  [EXTRACTED]
+  tests/test_features.py → src/solfut/features/indicators.py
+- `test_patterns_no_lookahead()` --calls--> `add_indicators()`  [EXTRACTED]
+  tests/test_features.py → src/solfut/features/indicators.py
+- `test_round_levels_use_prev_close()` --calls--> `add_round_levels()`  [EXTRACTED]
+  tests/test_features.py → src/solfut/features/levels.py
+- `test_swing_levels_only_confirmed()` --calls--> `add_swing_levels()`  [EXTRACTED]
+  tests/test_features.py → src/solfut/features/levels.py
+- `test_activity_mask_blocks_news_and_window()` --calls--> `activity_mask()`  [EXTRACTED]
+  tests/test_features.py → src/solfut/features/sessions.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (314 total, 69 thin omitted)
+## Communities (303 total, 66 thin omitted)
 
 ### Community 0 - "Trading Price Action Trends Questions"
 Cohesion: 0.01
@@ -500,8 +486,8 @@ Cohesion: 0.08
 Nodes (26): 60-Minute Chart Analysis, 60-Minute RSI Chart Analysis, Check, to Understand What the Market Is, Daily Chart Analysis, Daily RSI Chart Analysis, Going to Do in the Future, It Helps to Understand Its Past, Index Radar Screen Alert, indicators placed on them: (+18 more)
 
 ### Community 36 - "Technical Analysis of the Financial Markets.md"
-Cohesion: 0.10
-Nodes (20): •3, A COMPREHENSIVE GUIDE TO TRADING METHODS AND APPLICATIONS, About the Author, About the Contributors, Acknowledgments, \ AW, CANDLESTICK CHARTING, CONCLUSION (+12 more)
+Cohesion: 0.08
+Nodes (25): •3, A COMPREHENSIVE GUIDE TO TRADING METHODS AND APPLICATIONS, About the Author, About the Contributors, Acknowledgments, \ AW, CANDLESTICK CHARTING, CONCLUSION (+17 more)
 
 ### Community 37 - "Orders and Trade Management"
 Cohesion: 0.08
@@ -524,8 +510,8 @@ Cohesion: 0.08
 Nodes (24): $3.36, or 8 percent., and Stock Options, CEPH (Cephalon, Inc.)— May 3, 2004, EBAY (eBay, Inc.)—August 19, 2004, FRIEDRICH NIETZSCHE, GS (The Goldman Sachs Group, Inc.)— August 24, 2004, Individual Stock Options, JAPANESE PROVERB (+16 more)
 
 ### Community 42 - "Trading In The Zone PDF"
-Cohesion: 0.22
-Nodes (8): About the author, About the book, Chapter 1 Summary : THE ROAD TO SUCCESS:FUNDAMENTAL,, Chapter 7 Summary : THE TRADER'S EDGE:THINKING IN, Mark Douglas, Summary Content List, Trading In The Zone, Trading In The Zone PDF
+Cohesion: 0.08
+Nodes (23): About the author, About the book, ALIGNING YOUR MENTAL ENVIRONMENT, Best Quotes from Trading In The Zone by Mark Douglas with Page Numbers, Chapter 10 | Quotes From Pages 140-153, Chapter 1 | Quotes From Pages 15-26, Chapter 1 Summary : THE ROAD TO SUCCESS:FUNDAMENTAL,, CHAPTER 4 (+15 more)
 
 ### Community 43 - "WXj/"
 Cohesion: 0.08
@@ -584,8 +570,8 @@ Cohesion: 0.10
 Nodes (20): 2004 Contract, October 14, 2004, 2004 Contract, September 14, 2004, E-mini S&P—December, E-mini S&P—December 2004 Contract, October 4, 2004, E-mini S&P—September 2004 Contract, July 27, 2004, E-mini S&P—September 2004 Contract, July 28, 2004, E-mini S&P—September 2004 Contract, July 29, 2004, Mini-Sized Dow—December (+12 more)
 
 ### Community 57 - "Trading Price Action Trends PDF"
-Cohesion: 0.14
-Nodes (13): About the author, About the book, Al Brooks, Audio, Bear Reversal Bars, Bull Reversal Bars, Chapter 2 Summary : The Spectrum of Price Action: Extreme Trends to, Chapter 5 Summary : Bar Basics: Signal Bars, Entry Bars, Setups, and Candle (+5 more)
+Cohesion: 0.10
+Nodes (19): About the author, About the book, Al Brooks, Audio, Bear Reversal Bars, Bull Reversal Bars, Chapter 10 Summary : Exchange-Traded Funds and Inverse Charts, Chapter 2 Summary : The Spectrum of Price Action: Extreme Trends to (+11 more)
 
 ### Community 58 - "Elliott Waye"
 Cohesion: 0.11
@@ -607,9 +593,9 @@ Nodes (18): ......., 1".335, 25 1, Action flattens out in US lunch-hour, Chapter
 Cohesion: 0.11
 Nodes (18): both are very fi ne entn es, Chapter 9 Consecutive Intraday Charts-July, Chapter 9 Consecutive Intraday Charts -July, Chapter 9 Consecutive Intraday Charts -July, continuation, particularly when they, False high in squeeze confilTnS failure to1.235, l+f't+I;: ... t.DI6.,1,23 'rll, News rallies are best not traded for (+10 more)
 
-### Community 63 - "pandas"
-Cohesion: 0.08
-Nodes (39): datetime, io, json, loguru, numpy, pandas, pathlib, requests (+31 more)
+### Community 63 - "download_data.py"
+Cohesion: 0.14
+Nodes (13): csv, date, datetime, loguru, Orchestrator tải dữ liệu SOLUSDT (M1). Chạy: .venv/Scripts/python.exe…, Tải dữ liệu bổ sung cho M2 context/orderflow: BTCUSDT D1 (trend filter) +…, first_friday(), is_edt() (+5 more)
 
 ### Community 64 - "Long"
 Cohesion: 0.12
@@ -624,8 +610,8 @@ Cohesion: 0.12
 Nodes (16): CHAPTER 16: Managing Risk, Chapter 16 Summary : Managing Risk, Conclusion: Determination, Emotional Trading, Encouraging Trading Tolerance, Introduction to Trading Psychology, Money Attitudes, Risky Money Traps (+8 more)
 
 ### Community 67 - "I<sub>+</sub>"
-Cohesion: 0.09
-Nodes (22): A SIMPLE CYCLE, AA/WWWV, APPENDICES, Appendix A: Advanced Technical Indicators*, Appendix D: Continuous Futures Contracts*, --------Beyond Candlesticks, Wiley, 1994., Bibliography, CONSTANT FORWARD (+14 more)
+Cohesion: 0.12
+Nodes (16): A SIMPLE CYCLE, AA/WWWV, APPENDICES, Appendix A: Advanced Technical Indicators*, --------Beyond Candlesticks, Wiley, 1994., Bibliography, CYCLES, DEMAND INDEX (DI) (+8 more)
 
 ### Community 68 - "Chapter 4 Summary : Understand Fundamental Analysis"
 Cohesion: 0.12
@@ -667,13 +653,13 @@ Nodes (15): 1. Calculate the overall expectancy of your system. If you, 5. Calcu
 Cohesion: 0.13
 Nodes (15): All Bars in a Channel, Chapter 7 Summary : Signal Bars: Other Types, Conclusion, Exhaustion Bar, Introduction to Signal Bars, Micro Double Patterns, Outside Bar, Reversal Bar Failures and Shaved Bars (+7 more)
 
-### Community 78 - "run_one"
-Cohesion: 0.06
-Nodes (44): main(), DataFrame, ndarray, Series, Chạy 1 chiến thuật: 2 kịch bản × 2 bound + sensitivity + random baseline +…, run_one(), main(), FundingSchedule (+36 more)
+### Community 78 - "pandas"
+Cohesion: 0.16
+Nodes (14): DatetimeIndex, pandas, activity_mask(), funding_marks(), load_news_calendar(), DataFrame, ndarray, Path (+6 more)
 
-### Community 79 - "patterns.py"
-Cohesion: 0.09
-Nodes (22): add_prev_day_levels(), add_round_levels(), add_swing_levels(), magnet_distance_bars(), DataFrame, Series, Round number gần nhất (trên/dưới) theo giá TRƯỚC bar hiện tại (shift 1)., Yesterday H/L + pivot classic từ D1 NGÀY TRƯỚC — ghép theo ngày UTC của bar M5. (+14 more)
+### Community 79 - "test_features.py"
+Cohesion: 0.21
+Nodes (13): add_patterns(), _body(), DataFrame, _range(), Pattern price-action — subset máy móc theo định nghĩa sách (PLAN: rating ≤ 3).…, load_m5(), make_synthetic(), DataFrame (+5 more)
 
 ### Community 80 - "Putting It All Together"
 Cohesion: 0.14
@@ -691,9 +677,9 @@ Nodes (14): Chapter 2 Summary : Currency Trading Basics, Chapter 3: Currency Tra
 Cohesion: 0.14
 Nodes (14): Availability in Trading, Chapter 8 Summary : WORKING WITHYOUR BELIEFS, CHAPTER 8: WORKING WITH YOUR BELIEFS, Critical Thinking, Defining the Problem, Integration of Fundamental Truths, Moving Toward "The Zone", Objectives in Trading (+6 more)
 
-### Community 84 - "costs.py"
-Cohesion: 0.09
-Nodes (23): dataclasses, fixture, functools, math, floor_lot(), Account sizing (PLAN M4 account.py) — Percent-Risk (Tharp): qty = risk /…, Floor về lot step với epsilon chống lỗi float (2.5/0.01 = 249.999…)., Sizing cho 1 lệnh. sl_distance_pct: khoảng cách SL theo % giá (fraction dương).… (+15 more)
+### Community 84 - "numpy"
+Cohesion: 0.18
+Nodes (12): numpy, add_prev_day_levels(), add_round_levels(), add_swing_levels(), magnet_distance_bars(), DataFrame, Series, Magnet levels (PLAN M2): round numbers, pivots UTC 00:00, yesterday H/L, swing… (+4 more)
 
 ### Community 85 - "Day Trading"
 Cohesion: 0.15
@@ -735,9 +721,9 @@ Nodes (13): Chapter 10 | THE IMPACT OFBELIEFS ON, Chapter 1 | THE ROAD TO, Chapt
 Cohesion: 0.15
 Nodes (13): Chapter 1 Summary : PART I Price Action, Conclusion, Critical Thinking, Definition of Price Action, High-Frequency Trading (HFT), Institutional Influence, Learning Price Action, Market Uncertainty (+5 more)
 
-### Community 95 - "process_day"
-Cohesion: 0.29
-Nodes (8): download_daily_agg(), main(), process_day(), DataFrame, ndarray, Path, Roll (1984) effective spread theo bps: 2*sqrt(-cov(Δp, Δp_lag1)) × 1e4., roll_spread_bps()
+### Community 95 - "calibrate_costs.py"
+Cohesion: 0.21
+Nodes (12): io, requests, download_daily_agg(), main(), process_day(), DataFrame, ndarray, Path (+4 more)
 
 ### Community 96 - "Chapter 2 Summary : Avoiding a Trading Tragedy"
 Cohesion: 0.17
@@ -767,9 +753,9 @@ Nodes (12): Chapter 17 Summary : PART III Trends, Characteristics of Trends, Con
 Cohesion: 0.17
 Nodes (12): Also, don't be too, bar (strong adverse magnet of 50 level)., Bears in position are well advised to exit, Chapter 9 Consecutive Intraday Charts-March, +i O 'It.., on the upside break of the combi inside, ..-ProReafTime.com .ur/usd S-minute March 27-20 12, <u>Chapter</u> 9 <u>Consecutive Intraday Charts-March</u> (+4 more)
 
-### Community 103 - "hypothesis_fades.py"
-Cohesion: 0.08
-Nodes (36): main(), main(), main(), main(), main(), add_oi_context(), add_taker_flow(), load_oi() (+28 more)
+### Community 103 - "orderflow.py"
+Cohesion: 0.20
+Nodes (11): pathlib, solfut_data_downloader, add_oi_context(), add_taker_flow(), load_oi(), DataFrame, Order-flow features (PLAN M2.5): taker imbalance + CVD từ trường…, Imbalance = (2×taker_buy_vol − vol) / vol, rolling; CVD = cumsum signed vol. (+3 more)
 
 ### Community 104 - "future.md"
 Cohesion: 0.18
@@ -876,8 +862,8 @@ Cohesion: 0.20
 Nodes (10): 23 1, <u>111_001:1</u> .., <u>Chapter</u> 8 <u>Recap Part I</u>, <u>Chapter</u> 8 <u>Recap Part I</u>, <u>Chapter</u> 8 <u>Recap Part I</u>, <u>Chapter</u> 8 <u>Recap Part I</u>, <u>Chapter</u> 8 <u>Recap Part I</u>, <u>Chapter</u> 8 <u>Recap Part I</u> (+2 more)
 
 ### Community 130 - "test_data_layer.py"
-Cohesion: 0.11
-Nodes (27): pytest, main(), main(), check_klines(), ohlc_columns_float(), DataFrame, Quality gate cho klines — pattern quality-gate/quarantine của V1. Trả về df…, adr20() (+19 more)
+Cohesion: 0.24
+Nodes (6): pytest, solfut_data_quality, make_df(), Unit test quality gate + resample — dữ liệu tổng hợp, biết trước kết quả đúng., test_quality_dedupes(), test_quality_flags_ohlc_violation()
 
 ### Community 131 - "Part IV: Putting It All Together"
 Cohesion: 0.22
@@ -1075,9 +1061,9 @@ Nodes (7): 97sSp s9kiP o., <u>Chapter</u> 8 <u>Recap Part I</u>, <u>Chapter</u> 
 Cohesion: 0.29
 Nodes (7): An extra bar [0 fatten up the buildup, bu the prospects are good., Chapter 9 Consecutive Intraday Charts -June, t +¢rt,+ u<u>.</u>,, (think combi) would have been nice,, <u>Chapter</u> 9 <u>Consecutive Intraday Charts-June</u>, <u>Chapter</u> 9 <u>Consecutive Intraday Charts-May</u>
 
-### Community 180 - "test_backtest.py"
-Cohesion: 0.13
-Nodes (29): DataFrame, ndarray, run_backtest(), DataFrame, ndarray, random_baseline(), make_ohlc(), make_signals() (+21 more)
+### Community 180 - "benchmark_engine.py"
+Cohesion: 0.33
+Nodes (6): json, main(), M0 mục 6: JIT warm-up + benchmark numba vs rust trên 1 grid cố định → chốt…, run(), time, vectorbt
 
 ### Community 181 - "books.md"
 Cohesion: 0.33
@@ -1095,9 +1081,9 @@ Nodes (6): Entries Are a Dime a Dozen; It’s the Exits That, How Do I Protect M
 Cohesion: 0.33
 Nodes (6): >AAAAAAAAA~, CYCLE READING AND SOFTWARE, SEASONAL CYCLES, STOCK MARKET CYCLES, THE JANUARY BAROMETER, THE PRESIDENTIAL CYCLE
 
-### Community 185 - "BinanceFuturesPublic"
-Cohesion: 0.15
-Nodes (10): BinanceFuturesPublic, SOLUSDT vắng mặt trong fundingInfo = đang mặc định 8h., Đầy đủ lịch sử funding từ start_ms (paginate)., download_funding(), funding_interval_hours(), funding_stats(), load_funding(), DataFrame (+2 more)
+### Community 185 - "Appendix D: Continuous Futures Contracts*"
+Cohesion: 0.33
+Nodes (6): Appendix D: Continuous Futures Contracts*, CONSTANT FORWARD, CONTINUOUS CONTRACTS, CONTINUOUS CONTRACTS, GANN CONTRACT, NEXT CONTRACT
 
 ### Community 186 - "Selected Resources"
 Cohesion: 0.33
@@ -1303,51 +1289,19 @@ Nodes (3): 2 4 6 TtO'1, Chapter 8 Recap Part I, '+.+,T"O
 Cohesion: 0.67
 Nodes (3): Best stay out. Follow-up speech, due at 14:30 (note the spiky bar)., J'.a+TOtT' ...
 
-### Community 297 - "events.py"
-Cohesion: 0.19
-Nodes (16): _block_bootstrap_mean_ci(), EventResult, forward_returns(), judge(), mfe_mae(), DataFrame, ndarray, Series (+8 more)
-
-### Community 300 - "fetch_recent_klines"
-Cohesion: 0.20
-Nodes (11): download_daily_metrics(), download_monthly_klines(), fetch_funding_history(), fetch_recent_klines(), load_monthlies(), _normalize_open_time(), DataFrame, Path (+3 more)
-
-### Community 303 - "Chapter 10 Summary : Exchange-Traded Funds and Inverse Charts"
-Cohesion: 0.33
-Nodes (6): Chapter 10 Summary : Exchange-Traded Funds and Inverse Charts, Chapter Summary: Trading Price Action Trends, Exchange-Traded Funds and Inverse Charts, Late and Missed Entries, Pattern Evolution, Second Entries
-
-### Community 304 - "gen_news_calendar.py"
-Cohesion: 0.40
-Nodes (5): csv, date, first_friday(), is_edt(), Sinh config/news_calendar.csv — lịch tin đỏ macro (UTC) cho blackout ±30'. -…
-
-### Community 305 - "Continuation Patterns"
-Cohesion: 0.40
-Nodes (5): Continuation Patterns, INTRODUCTION, THE SYMMETRICAL TRIANGLE, Time Limit for Triangle Resolution, TRIANGLES
-
-### Community 306 - "Chapter 4 Summary : CONSISTENCY:A STATE OF MIND"
-Cohesion: 0.40
-Nodes (5): ALIGNING YOUR MENTAL ENVIRONMENT, CHAPTER 4, Chapter 4 Summary : CONSISTENCY:A STATE OF MIND, CONSISTENCY: A STATE OF MIND, REALLY UNDERSTANDING RISK
-
-### Community 307 - "Best Quotes from Trading In The Zone by Mark Douglas with Page Numbers"
-Cohesion: 0.40
-Nodes (5): Best Quotes from Trading In The Zone by Mark Douglas with Page Numbers, Chapter 10 | Quotes From Pages 140-153, Chapter 1 | Quotes From Pages 15-26, Chapter 4 | Quotes From Pages 62-71, Chapter 7 | Quotes From Pages 98-117
-
-### Community 308 - "Chapter 5 Summary : THE DYNAMICS OFPERCEPTION"
-Cohesion: 0.40
-Nodes (5): Chapter 5 Summary : THE DYNAMICS OFPERCEPTION, CHAPTER 5: THE DYNAMICS OF PERCEPTION, DEBUGGING YOUR MENTAL SOFTWARE, PERCEPTION AND LEARNING, THE POWER OF ASSOCIATION
-
 ## Knowledge Gaps
 - **4058 isolated node(s):** `solfut`, `0. Thông số thật của hợp đồng (đo từ `fapi/v1/exchangeInfo` + `fapi/v1/fundingRate`, 2026-09-19)`, `0.1. Bảng quy đổi EURUSD → SOLUSDT (xương sống của V2)`, `1. Kiến trúc dự án (trong `C:\Project\solusd-future-v2`)`, `2. M0 — Môi trường (½ ngày)` (+4053 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 4211 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **69 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 4123 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **66 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `OPTIONS, AND FOREX?` connect `OPTIONS, AND FOREX?` to `Long`, `Market, on any time frame?`, `the Best Way to Take Money Away`, `Profit?”`, `Middle of the Day?`, `and Stock Options`, `Gold Trades and the Darvas Box`, `Mastering the Trade - Proven Techniques for Profiting from Intraday and Swing Trading Setups 2nd edition 2012.md`, `the Big Market Moves?`, `Streaming Real Time Analysis`, `Smashed`, `Currencies`, `Points for Choppy Days?`, `Play of the Day?`, `Jumping Out Too Early?`, `with a Fine Cigar`, `Change Confirmation?`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+  _High betweenness centrality (0.025) - this node is a cross-community bridge._
 - **Why does `Trading and Investing?` connect `Trading and Investing?` to `Throughout the Trading Day?`, `Investing in School?`, `Mastering the Trade - Proven Techniques for Profiting from Intraday and Swing Trading Setups 2nd edition 2012.md`, `Top Tools for Traders`, `and What Is the Best Way to Trade Them?`, `Commodity Markets`, `Markets to Move?`?**
   _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `I<sub>+</sub>` connect `I<sub>+</sub>` to `The Link Between Stocks and Futures: Intermarket Analysis`, `Technical Analysis of the Financial Markets.md`, `*/ I`, `Money Management and Trading Tactics`, `Selected Resources`, `/*Vj`, `Computers and Trading Systems`, `A<s>A^Vv'</s>`, `Appendix B: Market Profile*`, `Stock Market Indicators H&Jga^lKft ,^gf^---`, `>AAAAAAAAA~`, `Elliott Waye`, `Appendix C: The Essentials of Building a Trading System*`?**
+- **Why does `I<sub>+</sub>` connect `I<sub>+</sub>` to `The Link Between Stocks and Futures: Intermarket Analysis`, `Technical Analysis of the Financial Markets.md`, `*/ I`, `Money Management and Trading Tactics`, `Selected Resources`, `/*Vj`, `Computers and Trading Systems`, `A<s>A^Vv'</s>`, `Appendix B: Market Profile*`, `Stock Market Indicators H&Jga^lKft ,^gf^---`, `>AAAAAAAAA~`, `Appendix D: Continuous Futures Contracts*`, `Elliott Waye`, `Appendix C: The Essentials of Building a Trading System*`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **What connects `solfut`, `0. Thông số thật của hợp đồng (đo từ `fapi/v1/exchangeInfo` + `fapi/v1/fundingRate`, 2026-09-19)`, `0.1. Bảng quy đổi EURUSD → SOLUSDT (xương sống của V2)` to the rest of the system?**
   _4058 weakly-connected nodes found - possible documentation gaps or missing edges._

@@ -14,7 +14,9 @@ from pathlib import Path
 from loguru import logger
 
 LEDGER = Path(__file__).resolve().parents[3] / "data" / "reports" / "hypothesis_ledger.jsonl"
-MAX_PER_SEGMENT = 25  # cap giả thuyết mỗi segment dữ liệu (mục 12, luật 13)
+MAX_PER_SEGMENT = 30  # cap giả thuyết/segment (mục 12, luật 13). 25 ban đầu; +5 dư địa cho các
+# revision CẤU TRÚC pre-registered của giả thuyết PASS (vd M4b exit-structure — 1/chiến thuật,
+# đăng ký trước khi chạy, kết quả cả 2 kịch bản nằm trong 1 row) — không phải xoay bánh grid.
 
 
 @dataclass
