@@ -1,5 +1,15 @@
 # PLAN V2: Hệ thống giao dịch SOLUSDT Perpetual Futures trên Binance — Chuyển đổi từ plan EURUSD M5/MT5
 
+> **⚠️ TRẠNG THÁI SAU RESEARCH WAVE 1+2 (2026-09-20) — NO-GO chốt cho lớp intraday→4h:** 43 kiểm định
+> pre-registered (ledger 43 rows — 7 pass event-study, 36 kill; MỌI trading implementation kill).
+> Kết luận trung tâm: (1) H2b BTC-seesaw fade THẬT, replicate 4/4 symbol (t=3.3–7.7), nhưng chỉ regime
+> vol 2020–22 — VAL 2023-24 âm sau chi phí; (2) H5b premium-basis thấp → long PASS event-study (t=4.17)
+> nhưng chết ở implementation; (3) **số học bất khả**: r_net ≈ (drift×capture − RT)/sl với SL thiên tai
+> 6–11% → cần drift > ~0.8%/event để vượt gate 0.05R — không đạt ở mọi cấu hình được plan cho phép.
+> Báo cáo: `data/reports/research_wave_1_report.md` + luật 18–20. Wave 3 đòi hỏi thay đổi cấu trúc
+> (nguồn thông tin mới H8 Deribit / venue phí thấp / vốn lớn hơn / từ bỏ gate 0.05R cho lớp governed)
+> — quyết định của user. OOS1/FINAL OOS2 chưa đụng — giữ đóng băng.
+
 > **Ngày:** 2026-09-19. Số liệu hợp đồng, funding, biến động đo trực tiếp từ Binance Futures API public tại thời điểm viết.
 > **Bài học V1** (dự án `C:\Project\solusdt-future`, báo cáo 2026-09-14): framework đạt nhưng **edge NO-GO** — chi phí taker ~1.9 USD/lệnh gấp ~15 lần gross expectancy; gross ensemble −507 USD nhưng net −1,724 USD. V2 mã hóa các bài học này thành luật cứng (mục 11).
 
@@ -233,6 +243,9 @@ Cổng go/no-go: (0) sau M2.5/M2.6 — mỗi chiến thuật phải có ≥ 1 gi
 15. Phiên AI làm việc trong repo này phải đi qua graphify (2b.1) trước khi đọc file thô; sau khi sửa code phải `graphify update .`.
 16. Mọi giả thuyết vào backtest phải có (a) bằng chứng bên ngoài (mục 12) HOẶC observation riêng của dự án, và (b) event-study pass theo M2.5. Không ưu tiên setup sách chỉ vì "sách nói vậy" — M2.6 có các edge class với bằng chứng mạnh hơn (đặc biệt H6 carry, H1 cascade fade); ưu tiên tối thượng của dự án là tìm được edge, không phải chứng minh sách đúng.
 17. **Funding interval đọc động, không hardcode 8h** — `fapi/v1/fundingInfo` (SOLUSDT vắng mặt = 8h); Binance đã/có thể đổi tần suất settle 1h/2h/4h/8h; bot nạp interval khi start và theo dõi thông báo thay đổi; mọi blackout quanh mốc funding theo interval hiện hành.
+18. **Event-drift ≠ tradeable PnL** (Wave 1): phép đo close-to-close bỏ qua path — SL hits, subset selection do single-position, EOD truncation; implementation capture 60–100% drift tùy symbol/regime. Mọi claim edge phải qua engine backtest, không kết luận từ event-study.
+19. **Sizing theo lớp horizon**: wide-stop strategies (SL thiên tai ≥ ~7%) dùng governed sizing — notional = max(minNotional, min(equity×lev_eff, equity×risk_cap/sl)), worst-case risk cap + guard; percent-risk trên SL rộng tự giết R-economics (notional 5.3 USDT chạm sàn + R-dilution 10×). minNotional theo symbol (ETH = 20 USDT!) — không giả định chung.
+20. **Session filter chỉ dành cho intraday**: với hold ≥ 4h, filter giờ cắt 56% events mà drift trong/ngoài window tương đương — mặc định OFF cho lớp horizon (evidence: diagnose_decay_regimes).
 
 ## 12. Nguồn tham khảo cho M2.6 (research 2026-09-20)
 - **H6 carry:** Crypto Carry — Schmeling, Schrimpf & Todorov, *Management Science*: [pubsonline.informs.org](https://pubsonline.informs.org); Funding-rate arbitrage risk/return — Werapun et al. 2025: [sciencedirect.com](https://www.sciencedirect.com); Perpetual Futures Pricing — Ackerer et al. 2024 (Wharton): [finance.wharton.upenn.edu](https://finance.wharton.upenn.edu)
