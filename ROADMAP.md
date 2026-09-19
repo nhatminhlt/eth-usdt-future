@@ -55,17 +55,17 @@
   - **H4a2_sell_surge_reversal_long**: taker sell surge → bounce, ex+1h **+0.111%**, t=6.08, VAL +0.057% giữ hướng
   - **H4d_oi_squeeze_long_4h**: squeeze quadrant (OI↓+giá↑) drift lên @4h, ex **+0.084%**, t=8.03, VAL +0.055% giữ hướng
   - 13 KILL ghi đủ ledger (H3 seasonality toàn kill; H4b2 fresh-money-reversal ex 0.039% < 0.05% → kill trung thực)
-- [ ] 29. Event study tiếp: H1 cascade fade (liquidationSnapshot), H6 carry, refined variants → chốt hypothesis cho M3
+- [x] 29. Event study đợt 4 — **S1/S2/S3 book atoms TOÀN BỘ KILL** (6/6, t ≤ 1.22) → theo luật 12/16, sách strategies KHÔNG được backtest; M3 dựng trên 3 giả thuyết pass. H1 cascade fade đang tải liquidationSnapshot (nền).
 
-**Exit criteria M2.5:** ✅ **ĐẠT (cổng 0 MỞ)** — 3 giả thuyết pass + VAL giữ hướng, đủ điều kiện vào M3/M4.
+**Exit criteria M2.5:** ✅ **ĐẠT (cổng 0 MỞ)** — 3 giả thuyết pass + VAL giữ hướng; book strategies bị gate loại một cách trung thực.
 
 ## M3 — Ba chiến thuật ứng viên (4 ngày)
 
-- [ ] 30. `strategies/base.py` — khung chung: Percent-Risk sizing, SL = cực trị trigger ± offset, cap SL, TP 2R, flat trong ngày, conflict resolver
-- [ ] 31. S1 volman_breakout.py — 2 biến thể entry (stop-market taker + entry-retest maker)
-- [ ] 32. S2 brooks_h2l2.py — H2/L2 + reversal bar + EMA20 pullback; biến thể always-in H1
-- [ ] 33. S3 squeeze_pivot.py — TTM squeeze + confluence pivot/round
-- [ ] 34. Mỗi chiến thuật ≥ 200 tín hiệu TRAIN (không nới ngưỡng — luật 3); tham số derive từ MFE/MAE của M2.5, grid chỉ fine-tune
+- [x] 30. `strategies/base.py` ✅ (StrategySpec + derive_sl_tp từ MFE/MAE ledger + conflict resolver)
+- [x] 31. ~~S1/S2/S3~~ **BỊ LOẠI ở event-study (đợt 4: 6/6 kill)** — luật 12/16 không cho backtest
+- [x] 32. `strategies/hypothesis_fades.py` ✅ — 3 chiến thuật trên 3 giả thuyết PASS: A_seesaw_long (H2b), B_flush_bounce_long (H4a2), C_oi_squeeze_long_4h (H4d, entry transition-only)
+- [x] 33. SL/TP derive từ MFE/MAE ledger (không grid mù): SL 1.3–1.7%, TP 1.2–1.5%, RR ≈ 0.95–1.05
+- [x] 34. Mẫu tín hiệu TRAIN: A 7.435 / B 8.053 / C 17.400 — toàn bộ vượt gate 200 (luật 3)
 
 **Exit criteria M3:** 3 chiến thuật sinh tín hiệu qua cùng interface, đủ mẫu, có unit test signal trên nến mẫu.
 
