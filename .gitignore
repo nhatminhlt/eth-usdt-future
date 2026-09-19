@@ -5,7 +5,9 @@ books/pdf/
 .venv/
 __pycache__/
 *.pyc
-data/
+data/*
+# ngoại lệ: báo cáo research nhỏ — hypothesis ledger + run manifest (PLAN luật 13: ledger là tài sản)
+!data/reports/
 # Python build artifacts
 *.egg-info/
 build/
