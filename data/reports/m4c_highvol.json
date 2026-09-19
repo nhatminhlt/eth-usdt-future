@@ -1,0 +1,412 @@
+{
+ "hid": "A2_seesaw_highvol_4h",
+ "holding_bars": 48,
+ "segments": {
+  "TRAIN": {
+   "n_events": 2995,
+   "scenarios": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 447,
+      "win_rate": 0.5123042505592841,
+      "expectancy_r": 0.028943262619998453,
+      "gross_expectancy_r": 0.0361507049698542,
+      "cost_r": 0.00720744234985574,
+      "profit_factor_gross": 1.2143274044002341,
+      "profit_factor_net": 1.1623387211218257,
+      "sqn_r": 0.8687200479568077,
+      "max_dd_pct": 10.174103118326492,
+      "trades_per_year": 167.281506147541,
+      "avg_bars_held": 45.89709172259508,
+      "equity_end": 56.30383744442453,
+      "exit_reasons": {
+       "time": 373,
+       "eod": 53,
+       "sl": 21
+      },
+      "expectancy_ci95": [
+       -0.02685401848566116,
+       0.11098599613416911
+      ]
+     },
+     "gates": {
+      "gross_positive": {
+       "ok": true,
+       "value": 0.0362
+      },
+      "net_expectancy": {
+       "ok": false,
+       "value": 0.0289,
+       "min": 0.05
+      },
+      "ci_excludes_zero": {
+       "ok": false,
+       "value": -0.0269
+      },
+      "sqn": {
+       "ok": false,
+       "value": 0.87,
+       "min": 2.0
+      },
+      "pf_net": {
+       "ok": false,
+       "value": 1.162,
+       "min": 1.3
+      },
+      "n_trades": {
+       "ok": true,
+       "value": 447,
+       "min": 100
+      },
+      "max_dd": {
+       "ok": true,
+       "value": 10.2,
+       "max": 25
+      },
+      "trades_per_year": {
+       "ok": false,
+       "value": 167.3,
+       "min": 300
+      },
+      "ALL_PASS": {
+       "ok": false
+      }
+     },
+     "engine_stats": {
+      "n_signals": 2995,
+      "n_trades": 447,
+      "fill_rate_maker": 0.8083182640144665,
+      "n_missed_maker": 106,
+      "n_skip_position": 746,
+      "n_skip_activity": 1670,
+      "n_skip_size": 26,
+      "n_skip_eod_entry": 0,
+      "equity_end": 56.30383744442452
+     },
+     "mc_drawdown": {
+      "max_dd_p50": 8.56083458349945,
+      "max_dd_p95": 13.35393946306989,
+      "max_dd_p99": 15.146978128266692,
+      "losing_streak_p95": 11,
+      "n_sims": 1000
+     },
+     "random_baseline": {
+      "k_seeds": 30,
+      "n_trades_mean": 5.833333333333333,
+      "random_expectancy_mean_r": -0.03525662375251832,
+      "random_expectancy_std_r": 0.14740602790489374,
+      "random_expectancy_p95": 0.2131847757353567
+     },
+     "edge_vs_random": {
+      "edge_r": 0.06419988637251678,
+      "random_p95": 0.2131847757353567,
+      "beats_random_p95": false
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 518,
+      "win_rate": 0.525096525096525,
+      "expectancy_r": 0.03183772896972733,
+      "gross_expectancy_r": 0.043083327503701196,
+      "cost_r": 0.01124559853397386,
+      "profit_factor_gross": 1.2868643813136134,
+      "profit_factor_net": 1.1972092399829324,
+      "sqn_r": 1.3215443105871363,
+      "max_dd_pct": 9.100150148278278,
+      "trades_per_year": 193.2579162410623,
+      "avg_bars_held": 46.32818532818533,
+      "equity_end": 58.514191764191075,
+      "exit_reasons": {
+       "time": 446,
+       "eod": 50,
+       "sl": 22
+      },
+      "expectancy_ci95": [
+       -0.002610067081724255,
+       0.07879875651583401
+      ]
+     },
+     "gates": {
+      "gross_positive": {
+       "ok": true,
+       "value": 0.0431
+      },
+      "net_expectancy": {
+       "ok": false,
+       "value": 0.0318,
+       "min": 0.05
+      },
+      "ci_excludes_zero": {
+       "ok": false,
+       "value": -0.0026
+      },
+      "sqn": {
+       "ok": false,
+       "value": 1.32,
+       "min": 2.0
+      },
+      "pf_net": {
+       "ok": false,
+       "value": 1.197,
+       "min": 1.3
+      },
+      "n_trades": {
+       "ok": true,
+       "value": 518,
+       "min": 100
+      },
+      "max_dd": {
+       "ok": true,
+       "value": 9.1,
+       "max": 25
+      },
+      "trades_per_year": {
+       "ok": false,
+       "value": 193.3,
+       "min": 300
+      },
+      "ALL_PASS": {
+       "ok": false
+      }
+     },
+     "engine_stats": {
+      "n_signals": 2995,
+      "n_trades": 518,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "n_skip_position": 773,
+      "n_skip_activity": 1680,
+      "n_skip_size": 24,
+      "n_skip_eod_entry": 0,
+      "equity_end": 58.51419176419104
+     },
+     "mc_drawdown": {
+      "max_dd_p50": 7.454649347165981,
+      "max_dd_p95": 11.879318346336772,
+      "max_dd_p99": 14.247259471354381,
+      "losing_streak_p95": 11,
+      "n_sims": 1000
+     },
+     "random_baseline": {
+      "k_seeds": 30,
+      "n_trades_mean": 7.533333333333333,
+      "random_expectancy_mean_r": -0.02997099698120413,
+      "random_expectancy_std_r": 0.1256376341225058,
+      "random_expectancy_p95": 0.17839075792660808
+     },
+     "edge_vs_random": {
+      "edge_r": 0.06180872595093146,
+      "random_p95": 0.17839075792660808,
+      "beats_random_p95": false
+     }
+    }
+   }
+  },
+  "VAL": {
+   "n_events": 1377,
+   "scenarios": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 151,
+      "win_rate": 0.4900662251655629,
+      "expectancy_r": -0.009931479202105579,
+      "gross_expectancy_r": -0.0013269935328659773,
+      "cost_r": 0.008604485669239614,
+      "profit_factor_gross": 0.9828418621481686,
+      "profit_factor_net": 0.9068303795681145,
+      "sqn_r": -0.3753495859695231,
+      "max_dd_pct": 3.4414524016688146,
+      "trades_per_year": 154.48949579831933,
+      "avg_bars_held": 46.602649006622514,
+      "equity_end": 49.21664092440011,
+      "exit_reasons": {
+       "time": 139,
+       "eod": 6,
+       "sl": 6
+      },
+      "expectancy_ci95": [
+       -0.046404153375709606,
+       0.012445393866382801
+      ]
+     },
+     "gates": {
+      "gross_positive": {
+       "ok": false,
+       "value": -0.0013
+      },
+      "net_expectancy": {
+       "ok": false,
+       "value": -0.0099,
+       "min": 0.05
+      },
+      "ci_excludes_zero": {
+       "ok": false,
+       "value": -0.0464
+      },
+      "sqn": {
+       "ok": false,
+       "value": -0.38,
+       "min": 2.0
+      },
+      "pf_net": {
+       "ok": false,
+       "value": 0.907,
+       "min": 1.3
+      },
+      "n_trades": {
+       "ok": true,
+       "value": 151,
+       "min": 100
+      },
+      "max_dd": {
+       "ok": true,
+       "value": 3.4,
+       "max": 25
+      },
+      "trades_per_year": {
+       "ok": false,
+       "value": 154.5,
+       "min": 300
+      },
+      "ALL_PASS": {
+       "ok": false
+      }
+     },
+     "engine_stats": {
+      "n_signals": 1377,
+      "n_trades": 151,
+      "fill_rate_maker": 0.719047619047619,
+      "n_missed_maker": 59,
+      "n_skip_position": 366,
+      "n_skip_activity": 610,
+      "n_skip_size": 191,
+      "n_skip_eod_entry": 0,
+      "equity_end": 49.216640924400146
+     },
+     "mc_drawdown": {
+      "max_dd_p50": 4.582751628935323,
+      "max_dd_p95": 6.384077222668454,
+      "max_dd_p99": 7.119149335240321,
+      "losing_streak_p95": 10,
+      "n_sims": 1000
+     },
+     "random_baseline": {
+      "k_seeds": 21,
+      "n_trades_mean": 2.0952380952380953,
+      "random_expectancy_mean_r": -0.022092223717931524,
+      "random_expectancy_std_r": 0.28085622819192546,
+      "random_expectancy_p95": 0.2952022171799993
+     },
+     "edge_vs_random": {
+      "edge_r": 0.012160744515825946,
+      "random_p95": 0.2952022171799993,
+      "beats_random_p95": false
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 115,
+      "win_rate": 0.45217391304347826,
+      "expectancy_r": -0.024235221571000987,
+      "gross_expectancy_r": -0.012152519057641385,
+      "cost_r": 0.012082702513359606,
+      "profit_factor_gross": 0.8799924130796699,
+      "profit_factor_net": 0.7804132335612715,
+      "sqn_r": -0.8335366756035959,
+      "max_dd_pct": 4.768655246003632,
+      "trades_per_year": 117.65756302521008,
+      "avg_bars_held": 46.85217391304348,
+      "equity_end": 48.5985929374067,
+      "exit_reasons": {
+       "time": 107,
+       "eod": 5,
+       "sl": 3
+      },
+      "expectancy_ci95": [
+       -0.07508777235726058,
+       0.00548255187451142
+      ]
+     },
+     "gates": {
+      "gross_positive": {
+       "ok": false,
+       "value": -0.0122
+      },
+      "net_expectancy": {
+       "ok": false,
+       "value": -0.0242,
+       "min": 0.05
+      },
+      "ci_excludes_zero": {
+       "ok": false,
+       "value": -0.0751
+      },
+      "sqn": {
+       "ok": false,
+       "value": -0.83,
+       "min": 2.0
+      },
+      "pf_net": {
+       "ok": false,
+       "value": 0.78,
+       "min": 1.3
+      },
+      "n_trades": {
+       "ok": true,
+       "value": 115,
+       "min": 100
+      },
+      "max_dd": {
+       "ok": true,
+       "value": 4.8,
+       "max": 25
+      },
+      "trades_per_year": {
+       "ok": false,
+       "value": 117.7,
+       "min": 300
+      },
+      "ALL_PASS": {
+       "ok": false
+      }
+     },
+     "engine_stats": {
+      "n_signals": 1377,
+      "n_trades": 115,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "n_skip_position": 247,
+      "n_skip_activity": 612,
+      "n_skip_size": 403,
+      "n_skip_eod_entry": 0,
+      "equity_end": 48.598592937406686
+     },
+     "mc_drawdown": {
+      "max_dd_p50": 4.552772449775003,
+      "max_dd_p95": 6.338601318984212,
+      "max_dd_p99": 6.936246891668933,
+      "losing_streak_p95": 10,
+      "n_sims": 1000
+     },
+     "random_baseline": {
+      "k_seeds": 20,
+      "n_trades_mean": 1.75,
+      "random_expectancy_mean_r": -0.051271195555027516,
+      "random_expectancy_std_r": 0.18996604055519284,
+      "random_expectancy_p95": 0.16828148785481992
+     },
+     "edge_vs_random": {
+      "edge_r": 0.02703597398402653,
+      "random_p95": 0.16828148785481992,
+      "beats_random_p95": false
+     }
+    }
+   },
+   "excess_4h_pct": 0.24112570186606735,
+   "n_val_events_scored": 1376
+  }
+ },
+ "sl_disaster_pct": 0.09467153606189874,
+ "verdict": "kill"
+}
