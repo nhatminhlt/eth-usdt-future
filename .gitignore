@@ -10,3 +10,8 @@ data/
 *.egg-info/
 build/
 dist/
+
+# graphify artifacts nặng (giữ GRAPH_REPORT.md)
+graphify-out/graph.json
+graphify-out/graph.html
+graphify-out/cache/
