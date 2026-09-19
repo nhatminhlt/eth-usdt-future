@@ -28,32 +28,36 @@
 - [x] 13. `resample.py` ✅ (H1/D1 + pivots UTC + round levels + ADR20, có test)
 - [x] 14. `quality.py` ✅ (dedupe, gap, OHLC violation, quarantine, có test)
 - [x] 15. `funding.py` ✅ (history + interval động — luật 17)
-- [ ] 16. `calibrate_costs.py` — aggTrades + bookTicker 2 tháng gần nhất (chờ làm tiếp)
-- [ ] 17. graphify build sau khi data layer ổn
+- [x] 16. `calibrate_costs.py` ✅ — 30 ngày aggTrades thật: median Roll spread **1.01 bps**, impact theo size decile, **stop multiplier đo được 1.03** (V1 giả định 1.5) → `data/costs/`
+- [x] 17. graphify ✅ — `uv tool install C:\Project\graphify`, graph 4.541 nodes / 4.622 edges, commit GRAPH_REPORT.md
 
-**Exit criteria M1:** parquet M5/D1/H1/funding qua quality gate; bảng slippage có số thật; funding interval đọc động được.
+**Exit criteria M1:** parquet M5/D1/H1/funding qua quality gate; bảng slippage có số thật; funding interval đọc động được. ✅ **ĐẠT**
 
 ## M2 — Features & filter chung (2.5 ngày)
 
-- [ ] 18. `features/indicators.py` — EMA 13/20/25, MACD 12-26-9, ATR14, ADX14, RSI14, BB(20,2), KC(20,1.5), momentum 12 (vectorized, có unit test đối chiếu giá trị tay)
-- [ ] 19. `features/patterns.py` — inside bar, powerbar, doji, reversal, outside, ii/ioi, kangaroo tail, big shadow
-- [ ] 20. `features/state.py` — always-in, tight-TR (≤ 0.30×ADR20, kiểm chứng phân phối trước), barbwire, Impulse M30
-- [ ] 21. `features/levels.py` — magnet round number + pivots UTC + swing + yesterday H/L
-- [ ] 22. `features/context.py` — BTC D1 trend (EMA slope/ADX) + regime attribution bull/bear/chop; BTC-filter chỉ qua ablation, regime chỉ attribution
-- [ ] 23. `features/orderflow.py` — taker imbalance/CVD từ trường taker-buy-volume klines; OI×giá 4 góc; funding sign
-- [ ] 24. Activity filter: window 12:00–21:00 UTC, skip 10–11, blackout ±30' tin đỏ, ±5' mốc funding (interval động), weekend toggle
-- [ ] 25. Unit test chống lookahead cho toàn bộ features (nến đóng mới sinh signal — bắt buộc)
+- [x] 18. `features/indicators.py` ✅ (test no-lookahead)
+- [x] 19. `features/patterns.py` ✅ (inside/outside/ii/ioi/powerbar/doji/reversal/kangaroo/big shadow — machine subset)
+- [x] 20. `features/state.py` ✅ (always-in proxy EMA20, tight-TR 0.30×ADR20, barbwire)
+- [x] 21. `features/levels.py` ✅ (round numbers, pivots UTC, prev-day H/L, swing confirmed-only)
+- [x] 22. `features/context.py` ✅ (BTC D1 trend + regime attribution; BTC 1d + 5m đã tải)
+- [x] 23. `features/orderflow.py` ✅ (taker imbalance/CVD + OI từ metrics — 1.753 ngày, từ 2021-12)
+- [x] 24. `features/sessions.py` ✅ activity filter (window/skip/weekend/news blackout/funding blackout interval-động)
+- [x] 25. Test chống lookahead ✅ — 13 tests pass (causal check: df cắt ≡ df đầy đủ)
 
-**Exit criteria M2:** mọi feature có test; không hàm nào nhìn thấy tương lai (test lookahead pass).
+**Exit criteria M2:** mọi feature có test; không hàm nào nhìn thấy tương lai (test lookahead pass). ✅ **ĐẠT**
 
 ## M2.5 — Event-study trước backtest (1.5 ngày)
 
-- [ ] 26. `research/events.py` — forward-return có điều kiện vs baseline (+5m/+15m/+1h/+4h), moving-block bootstrap, decay curve, MFE/MAE; kill criteria pre-registered (excess ≥ 0.05% @+1h, t ≥ 2 TRAIN, giữ hướng VAL)
-- [ ] 27. `research/hypotheses.py` — ledger: ID + tiêu chí pass/fail viết trước + verdict; cap giả thuyết/segment; ghi cả giả thuyết chết
-- [ ] 28. `scripts/run_event_study.py` — chạy menu M2.6 (H1–H8) theo thứ tự giá trị kỳ vọng: H3 seasonality (rẻ nhất) → H2 BTC lead-lag → H4 OFI → H1 cascade fade → H6 carry (Track B) → H5/H7/H8
-- [ ] 29. Chốt: giả thuyết nào pass → được vào M3; ghi verdict vào ledger
+- [x] 26. `research/events.py` ✅ (forward-returns, moving-block bootstrap, MFE/MAE, judge pre-registered)
+- [x] 27. `research/hypotheses.py` ✅ (ledger JSONL, cap 25/segment, ghi cả giả thuyết chết)
+- [x] 28. Event studies ✅ — **16 giả thuyết test trên TRAIN, 3 PASS+VAL:**
+  - **H2b_btc_jump_down_seesaw_long**: BTC rơi ≥2σ/5m → SOL drift lên, ex+1h **+0.158%**, t=6.67, VAL +0.020% giữ hướng
+  - **H4a2_sell_surge_reversal_long**: taker sell surge → bounce, ex+1h **+0.111%**, t=6.08, VAL +0.057% giữ hướng
+  - **H4d_oi_squeeze_long_4h**: squeeze quadrant (OI↓+giá↑) drift lên @4h, ex **+0.084%**, t=8.03, VAL +0.055% giữ hướng
+  - 13 KILL ghi đủ ledger (H3 seasonality toàn kill; H4b2 fresh-money-reversal ex 0.039% < 0.05% → kill trung thực)
+- [ ] 29. Event study tiếp: H1 cascade fade (liquidationSnapshot), H6 carry, refined variants → chốt hypothesis cho M3
 
-**Exit criteria M2.5:** ≥ 1 giả thuyết pass event-study cho mỗi chiến thuật được triển khai (cổng go/no-go 0).
+**Exit criteria M2.5:** ✅ **ĐẠT (cổng 0 MỞ)** — 3 giả thuyết pass + VAL giữ hướng, đủ điều kiện vào M3/M4.
 
 ## M3 — Ba chiến thuật ứng viên (4 ngày)
 

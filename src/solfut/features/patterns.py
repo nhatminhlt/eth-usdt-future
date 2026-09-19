@@ -14,6 +14,7 @@ Tất cả boolean Series đánh giá TẠI bar t chỉ dùng bar ≤ t (no look
 """
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 
 
@@ -50,7 +51,7 @@ def add_patterns(df: pd.DataFrame) -> pd.DataFrame:
         out["powerbar_bull"] = big & top_quarter & (df["close"] > df["open"])
         out["powerbar_bear"] = big & bot_quarter & (df["close"] < df["open"])
 
-    out["doji"] = body <= 0.1 * rng.replace(0, pd.NA)
+    out["doji"] = (body <= 0.1 * rng.replace(0, np.nan)).fillna(False)
 
     # reversal bar (Brooks): xuyên cực trị prev rồi đóng ngược
     out["reversal_bull"] = (df["low"] < pl) & (df["close"] > pc) & (df["close"] >= df["high"] - rng / 3)
