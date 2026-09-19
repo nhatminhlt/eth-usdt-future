@@ -42,9 +42,10 @@ def add_oi_context(m5: pd.DataFrame, oi: pd.DataFrame) -> pd.DataFrame:
     oi_shift = oi["sum_open_interest"].shift(1)
     joined = out.join(oi_shift.rename("oi"), how="left")
     joined["oi"] = joined["oi"].ffill(limit=12)  # tối đa 1 giờ
-    joined["oi_delta_1h"] = joined["oi"].diff(12)
-    price_delta_1h = joined["close"].diff(12)
-    up = joined["oi_delta_1h"] > 0
+    out["oi"] = joined["oi"]
+    out["oi_delta_1h"] = joined["oi"].diff(12)
+    price_delta_1h = out["close"].diff(12)
+    up = out["oi_delta_1h"] > 0
     out["oi_quadrant"] = pd.Series(pd.NA, index=out.index, dtype="object")
     out.loc[up & (price_delta_1h > 0), "oi_quadrant"] = "oi_up_price_up"
     out.loc[up & (price_delta_1h <= 0), "oi_quadrant"] = "oi_up_price_down"
