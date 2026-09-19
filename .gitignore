@@ -6,3 +6,7 @@ books/pdf/
 __pycache__/
 *.pyc
 data/
+# Python build artifacts
+*.egg-info/
+build/
+dist/
