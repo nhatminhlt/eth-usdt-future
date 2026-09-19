@@ -1,0 +1,8 @@
+# Sách PDF có bản quyền + nặng (~100MB) — không đưa lên repo công khai
+books/pdf/
+
+# Runtime của dự án (theo PLAN.md mục 1)
+.venv/
+__pycache__/
+*.pyc
+data/
