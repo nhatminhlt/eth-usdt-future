@@ -1,0 +1,325 @@
+{
+ "config": "ensemble-8 ENTRY-GATED atrAbs≥0.80% — rest frozen M4d/W3",
+ "segments": {
+  "TRAIN": {
+   "portfolio": {
+    "n_trades": 3095,
+    "expectancy_r": 0.05508327813665568,
+    "gross_expectancy_r": 0.06054520794649247,
+    "ci95": [
+     0.012780085509205149,
+     0.10169979573421066
+    ],
+    "profit_factor_net": 1.2268591903260264,
+    "sqn_r": 4.355474099333673,
+    "max_dd_pct": 12.736880909081105,
+    "equity_end": 745.6193688782571,
+    "total_net_usdt": 345.6193688782571,
+    "win_rate": 0.5554119547657512,
+    "trades_per_year": 1129.3194305694306,
+    "exit_reasons": {
+     "time_maker": 2276,
+     "eod": 430,
+     "sl": 375,
+     "time_fallback": 14
+    },
+    "gates": {
+     "gross_positive": {
+      "ok": true,
+      "value": 0.0605
+     },
+     "net_expectancy": {
+      "ok": true,
+      "value": 0.0551,
+      "min": 0.05
+     },
+     "ci_excludes_zero": {
+      "ok": false,
+      "value": null
+     },
+     "sqn": {
+      "ok": true,
+      "value": 4.36,
+      "min": 2.0
+     },
+     "pf_net": {
+      "ok": false,
+      "value": 1.227,
+      "min": 1.3
+     },
+     "n_trades": {
+      "ok": true,
+      "value": 3095,
+      "min": 100
+     },
+     "max_dd": {
+      "ok": true,
+      "value": 12.7,
+      "max": 25
+     },
+     "trades_per_year": {
+      "ok": true,
+      "value": 1129.3,
+      "min": 300
+     },
+     "ALL_PASS": {
+      "ok": false
+     }
+    }
+   }
+  },
+  "VAL": {
+   "portfolio": {
+    "n_trades": 380,
+    "expectancy_r": 0.013703159193800895,
+    "gross_expectancy_r": 0.01975959221879255,
+    "ci95": [
+     -0.07601780276825187,
+     0.09977801697617344
+    ],
+    "profit_factor_net": 1.087302336639412,
+    "sqn_r": 0.5078671391620996,
+    "max_dd_pct": 4.511764252612117,
+    "equity_end": 408.94362941841274,
+    "total_net_usdt": 8.943629418412726,
+    "win_rate": 0.5631578947368421,
+    "trades_per_year": 397.69340974212037,
+    "exit_reasons": {
+     "time_maker": 294,
+     "sl": 45,
+     "eod": 41
+    },
+    "gates": {
+     "gross_positive": {
+      "ok": true,
+      "value": 0.0198
+     },
+     "net_expectancy": {
+      "ok": false,
+      "value": 0.0137,
+      "min": 0.05
+     },
+     "ci_excludes_zero": {
+      "ok": false,
+      "value": null
+     },
+     "sqn": {
+      "ok": false,
+      "value": 0.51,
+      "min": 2.0
+     },
+     "pf_net": {
+      "ok": false,
+      "value": 1.087,
+      "min": 1.3
+     },
+     "n_trades": {
+      "ok": true,
+      "value": 380,
+      "min": 100
+     },
+     "max_dd": {
+      "ok": true,
+      "value": 4.5,
+      "max": 25
+     },
+     "trades_per_year": {
+      "ok": true,
+      "value": 397.7,
+      "min": 300
+     },
+     "ALL_PASS": {
+      "ok": false
+     }
+    }
+   }
+  },
+  "OOS1": {
+   "portfolio": {
+    "n_trades": 699,
+    "expectancy_r": 0.0377861123504074,
+    "gross_expectancy_r": 0.043235782871786206,
+    "ci95": [
+     -0.015015861540995788,
+     0.09228716051285275
+    ],
+    "profit_factor_net": 1.2192318331282521,
+    "sqn_r": 1.9172662657070088,
+    "max_dd_pct": 3.7703321182707445,
+    "equity_end": 436.5318699210531,
+    "total_net_usdt": 36.53186992105308,
+    "win_rate": 0.5608011444921316,
+    "trades_per_year": 606.436460807601,
+    "exit_reasons": {
+     "time_maker": 555,
+     "eod": 97,
+     "sl": 45,
+     "time_fallback": 2
+    },
+    "gates": {
+     "gross_positive": {
+      "ok": true,
+      "value": 0.0432
+     },
+     "net_expectancy": {
+      "ok": false,
+      "value": 0.0378,
+      "min": 0.05
+     },
+     "ci_excludes_zero": {
+      "ok": false,
+      "value": null
+     },
+     "sqn": {
+      "ok": false,
+      "value": 1.92,
+      "min": 2.0
+     },
+     "pf_net": {
+      "ok": false,
+      "value": 1.219,
+      "min": 1.3
+     },
+     "n_trades": {
+      "ok": true,
+      "value": 699,
+      "min": 100
+     },
+     "max_dd": {
+      "ok": true,
+      "value": 3.8,
+      "max": 25
+     },
+     "trades_per_year": {
+      "ok": true,
+      "value": 606.4,
+      "min": 300
+     },
+     "ALL_PASS": {
+      "ok": false
+     }
+    }
+   }
+  }
+ },
+ "by_symbol": {
+  "SOLUSDT": {
+   "TRAIN": {
+    "n": 599,
+    "expectancy_r": 0.07696105791189566
+   },
+   "VAL": {
+    "n": 126,
+    "expectancy_r": 0.08983451224473707
+   },
+   "OOS1": {
+    "n": 113,
+    "expectancy_r": 0.0649371632471864
+   }
+  },
+  "ETHUSDT": {
+   "TRAIN": {
+    "n": 253,
+    "expectancy_r": -0.0061990429308273086
+   },
+   "VAL": {
+    "n": 21,
+    "expectancy_r": 0.1932398149676791
+   },
+   "OOS1": {
+    "n": 64,
+    "expectancy_r": 0.06657488085961863
+   }
+  },
+  "DOGEUSDT": {
+   "TRAIN": {
+    "n": 460,
+    "expectancy_r": 0.0078832342241934
+   },
+   "VAL": {
+    "n": 104,
+    "expectancy_r": -0.017006572895193087
+   },
+   "OOS1": {
+    "n": 171,
+    "expectancy_r": 0.011249141058521199
+   }
+  },
+  "AVAXUSDT": {
+   "TRAIN": {
+    "n": 271,
+    "expectancy_r": 0.09792697176914794
+   },
+   "VAL": {
+    "n": 10,
+    "expectancy_r": -0.1614666205437219
+   },
+   "OOS1": {
+    "n": 15,
+    "expectancy_r": 0.2296904083737776
+   }
+  },
+  "BNBUSDT": {
+   "TRAIN": {
+    "n": 265,
+    "expectancy_r": 0.04339698620092004
+   },
+   "VAL": {
+    "n": 18,
+    "expectancy_r": 0.04971896480309778
+   },
+   "OOS1": {
+    "n": 27,
+    "expectancy_r": 0.1997985328647631
+   }
+  },
+  "XRPUSDT": {
+   "TRAIN": {
+    "n": 394,
+    "expectancy_r": 0.08181711838553908
+   },
+   "VAL": {
+    "n": 38,
+    "expectancy_r": -0.11730169221349492
+   },
+   "OOS1": {
+    "n": 139,
+    "expectancy_r": 0.04143036207811092
+   }
+  },
+  "ADAUSDT": {
+   "TRAIN": {
+    "n": 412,
+    "expectancy_r": 0.06492493043285745
+   },
+   "VAL": {
+    "n": 55,
+    "expectancy_r": 0.03136560774104398
+   },
+   "OOS1": {
+    "n": 160,
+    "expectancy_r": -0.002182971286297422
+   }
+  },
+  "LINKUSDT": {
+   "TRAIN": {
+    "n": 441,
+    "expectancy_r": 0.05737350473281536
+   },
+   "VAL": {
+    "n": 8,
+    "expectancy_r": -0.6186524831346079
+   },
+   "OOS1": {
+    "n": 10,
+    "expectancy_r": -0.13592638460251028
+   }
+  }
+ },
+ "bar_checks": {
+  "train_ci_gt0_and_ge005R_n:": true,
+  "val_pos": true,
+  "oos1_pos_ci_gt0": false,
+  "ALL_PASS": false
+ }
+}

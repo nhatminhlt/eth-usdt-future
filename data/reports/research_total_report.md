@@ -133,7 +133,40 @@ từ bài practitioner phải đo cả event-study lẫn implementation.
 21. Drift episodic (vd RSI<30) có thể không có entry tradeable — atom từ bài practitioner phải
     qua cả event-study lẫn implementation.
 
-## 8. Wave 5 — quyết định cấu trúc của user (mục đích duy nhất còn mở)
+## 8. Wave 5 — stress attribution: cuts duy nhất dương cả 3 segment (UPDATE cùng ngày)
+
+**Phép đo (run_w5_stress_attribution.py + run_w5b_entry_gated.py — measure-only, measure-only):**
+Expectancy của cấu hình FROZEN ensemble-8 chia theo bậc ATR14-5m TUYỆT ĐỐI tại bar signal
+(ladder từ anchor 0.20%):
+
+| Bậc vol | TRAIN | VAL | OOS1 |
+|---|---|---|---|
+| <0.2% | n=46, âm | n=169, âm | n=74, âm |
+| 0.2–0.4% | n=1718, **−0.009R** | n=1118, **−0.016R** | n=1124, +0.008R |
+| 0.4–0.8% | n=4699, +0.012R | n=1016, −0.002R | n=1680, −0.011R |
+| **≥0.8% (stress)** | **+0.068R, CI [+0.042, +0.094], n=2377** | **+0.059R, CI [+0.0006, +0.132], win 0.61** | **+0.035R, CI [+0.0014, +0.078], n=351** |
+| ≥1.6% (panic) | +0.195R, CI [+0.092, +0.308], n=493 | +0.119R (n=36, mẫu mỏng) | +0.231R (n=59, mẫu mỏng) |
+
+→ **Edge thuần tuý nằm ở nhịp stress shock** — đúng mechanism a-priori (liquidity refill sau
+forced selling tăng giá trị khi cả hệ thống stress). Bậc ≥0.8% là cuts ĐUY NHẤT dương cả 3
+segment với CI > 0; frequency 867/y (TRAIN) và 302/y (OOS1) ≥ 200.
+
+**Entry-gated recheck (con số của chiến lược thật — gate tại entry,不是 post-hoc):**
+- TRAIN: **+0.0551R, CI [+0.0128, +0.1017], n=3,095, SQN 4.36, DD 12.7% — VƯỢT gate 0.05R**
+- VAL: +0.0137R (dương)
+- OOS1: +0.0378R — dương NHƯNG CI [−0.0150, +0.0923] chênh nhẹ chưa khép kín 0.
+
+**Trạng thái pre-registration:** `W5_stress_gated_ensemble8_OOS2` (pending) — one-shot
+FINAL OOS2 (2025-09→2026-08) đã được đăng ký criteria (expectancy>0, CI95 lo>0, n≥100) TRƯỚC
+khi chạy. OOS2-data 7 symbol đang tải nền. **Token OOS2 là quyết định của user** vì rule
+OOS1-CI chênh nhẹ chưa khép — tiêu bây giờ = chấp nhận 1 phát quyết định cho cả lớp.
+
+Ba lựa chọn tại bước này:
+1. **Tiêu OOS2 one-shot ngay** — pass → ứng viên edge hoàn chỉnh (muốn go-live nhưng vẫn qua
+   testnet/mainnet-size-nhỏ theo M6); fail → NO-GO chốt cả lớp fade, giữ hệ thống.
+2. **Chờ thêm evidence trước khi tiêu OOS2** — replicate symbol mới (4 hàng: ATOM/DOT/LTC/DOGE
+   đã có sẵn), hoặc tích hợp H8 Deribit skew làm confluence, rồi mới tiêu OOS2 một lần duy nhất.
+3. **Đổi venue/fee tier** — RT < 0.05% (không tiêu OOS2 vì cấu hình của venue khác cần VAL riêng).
 
 1. **Renegotiate gate 0.05R cho lớp governed** — ensemble-8 đã dương TRAIN (CI>0); câu hỏi là
    chấp nhận edge mỏng + regime risk không.
