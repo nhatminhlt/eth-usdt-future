@@ -1,0 +1,239 @@
+{
+ "symbols": [
+  "SOLUSDT",
+  "ETHUSDT",
+  "DOGEUSDT",
+  "AVAXUSDT",
+  "BNBUSDT",
+  "XRPUSDT",
+  "ADAUSDT",
+  "LINKUSDT",
+  "ATOMUSDT",
+  "DOTUSDT",
+  "LTCUSDT"
+ ],
+ "segments": {
+  "TRAIN": {
+   "portfolio": {
+    "n_trades": 3216,
+    "expectancy_r": 0.03509401203631464,
+    "gross_expectancy_r": 0.03835084025490662,
+    "ci95": [
+     0.007986127434891726,
+     0.05960092235392964
+    ],
+    "profit_factor_net": 1.2435369338175168,
+    "sqn_r": 4.654458096615278,
+    "max_dd_pct": 10.953612562914667,
+    "total_net_usdt": 195.0769711542491,
+    "win_rate": 0.5659203980099502,
+    "trades_per_year": 1173.4705294705295,
+    "gates": {
+     "gross_positive": {
+      "ok": true,
+      "value": 0.0384
+     },
+     "net_expectancy": {
+      "ok": false,
+      "value": 0.0351,
+      "min": 0.05
+     },
+     "ci_excludes_zero": {
+      "ok": false,
+      "value": null
+     },
+     "sqn": {
+      "ok": true,
+      "value": 4.65,
+      "min": 2.0
+     },
+     "pf_net": {
+      "ok": false,
+      "value": 1.244,
+      "min": 1.3
+     },
+     "n_trades": {
+      "ok": true,
+      "value": 3216,
+      "min": 100
+     },
+     "max_dd": {
+      "ok": true,
+      "value": 11.0,
+      "max": 25
+     },
+     "trades_per_year": {
+      "ok": true,
+      "value": 1173.5,
+      "min": 300
+     },
+     "ALL_PASS": {
+      "ok": false
+     }
+    }
+   }
+  },
+  "VAL": {
+   "portfolio": {
+    "n_trades": 444,
+    "expectancy_r": 0.02437907711858137,
+    "gross_expectancy_r": 0.02798492747856855,
+    "ci95": [
+     -0.03884249991420289,
+     0.07970044307448389
+    ],
+    "profit_factor_net": 1.2265018024879908,
+    "sqn_r": 1.4612546255480419,
+    "max_dd_pct": 3.45862630490194,
+    "total_net_usdt": 15.992809143776544,
+    "win_rate": 0.5855855855855856,
+    "trades_per_year": 464.6733524355301
+   }
+  },
+  "OOS1": {
+   "portfolio": {
+    "n_trades": 802,
+    "expectancy_r": 0.010136840243809737,
+    "gross_expectancy_r": 0.013493066189298554,
+    "ci95": [
+     -0.022959719869061822,
+     0.044478166007609024
+    ],
+    "profit_factor_net": 1.0866706535616057,
+    "sqn_r": 0.9088361749730972,
+    "max_dd_pct": 5.593181168018954,
+    "total_net_usdt": 10.434337467121916,
+    "win_rate": 0.5561097256857855,
+    "trades_per_year": 695.7969121140143
+   }
+  }
+ },
+ "by_symbol": {
+  "SOLUSDT": {
+   "TRAIN": {
+    "n": 585,
+    "expectancy_r": 0.04520137971492694
+   },
+   "VAL": {
+    "n": 122,
+    "expectancy_r": 0.05575024033931095
+   },
+   "OOS1": {
+    "n": 113,
+    "expectancy_r": 0.040313127014861706
+   }
+  },
+  "DOGEUSDT": {
+   "TRAIN": {
+    "n": 441,
+    "expectancy_r": 0.02287749015381705
+   },
+   "VAL": {
+    "n": 102,
+    "expectancy_r": 0.0061830953027353
+   },
+   "OOS1": {
+    "n": 167,
+    "expectancy_r": 0.0049875435175012655
+   }
+  },
+  "AVAXUSDT": {
+   "TRAIN": {
+    "n": 141,
+    "expectancy_r": 0.049599396847496625
+   },
+   "VAL": {
+    "n": 7,
+    "expectancy_r": -0.15267791951968848
+   }
+  },
+  "BNBUSDT": {
+   "TRAIN": {
+    "n": 251,
+    "expectancy_r": 0.0457348784689279
+   },
+   "VAL": {
+    "n": 17,
+    "expectancy_r": 0.017497545266567265
+   },
+   "OOS1": {
+    "n": 26,
+    "expectancy_r": 0.09397468323932895
+   }
+  },
+  "XRPUSDT": {
+   "TRAIN": {
+    "n": 381,
+    "expectancy_r": 0.03240072248797012
+   },
+   "VAL": {
+    "n": 37,
+    "expectancy_r": -0.044741575295247506
+   },
+   "OOS1": {
+    "n": 132,
+    "expectancy_r": 0.01991665170516295
+   }
+  },
+  "ADAUSDT": {
+   "TRAIN": {
+    "n": 407,
+    "expectancy_r": 0.03285491842892749
+   },
+   "VAL": {
+    "n": 54,
+    "expectancy_r": 0.03230868694447079
+   },
+   "OOS1": {
+    "n": 154,
+    "expectancy_r": -0.008398450056592364
+   }
+  },
+  "LINKUSDT": {
+   "TRAIN": {
+    "n": 1,
+    "expectancy_r": -1.012400073351503
+   }
+  },
+  "ATOMUSDT": {
+   "TRAIN": {
+    "n": 576,
+    "expectancy_r": 0.028126178536679994
+   },
+   "VAL": {
+    "n": 48,
+    "expectancy_r": 0.018648350604752364
+   },
+   "OOS1": {
+    "n": 98,
+    "expectancy_r": -0.019112663990856982
+   }
+  },
+  "DOTUSDT": {
+   "TRAIN": {
+    "n": 432,
+    "expectancy_r": 0.041581938558122825
+   },
+   "VAL": {
+    "n": 57,
+    "expectancy_r": 0.05577264433992966
+   },
+   "OOS1": {
+    "n": 112,
+    "expectancy_r": 0.0074598691602542145
+   }
+  },
+  "LTCUSDT": {
+   "TRAIN": {
+    "n": 1,
+    "expectancy_r": -1.0107103228509602
+   }
+  }
+ },
+ "checks": {
+  "train": false,
+  "val_pos": true,
+  "oos1_pos": true,
+  "READY_FOR_OOS2": false
+ }
+}

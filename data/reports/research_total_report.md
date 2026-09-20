@@ -231,3 +231,31 @@ SL thiên tai (để tồn tại trong bounce-leg lớn) làm R-economics pha lo
 Ledger giờ 63 rows (58 verdict Wave 1-5 + H11/H13/H12/H12_impl + W5 OOS2 pending). Làn A kết thúc: không atom exp/ nào ghép được vào stress-ensemble hiệp hơn
 cấu hình sẵn có — **tấm vé OOS2 vẫn đứng với cấu hình `W5_stress_gated_ensemble8` (entry
 ATR%≥0.80)**. Token OOS2 vẫn là quyết định của bạn: tiêu 1 phát (slot 1 ở mục 8), hoặc dừng.
+
+## 11. Wave 7 — củng cố bằng chứng trước khi tiêu vé OOS2 (Làn A tiếp theo)
+
+**Replication mở rộng: H2b BTC-seesaw PASS thêm 3/3 symbol** — ATOM t=6.47, DOT t=7.04,
+LTC t=6.06 (@+1h, định nghĩa pre-registered identical, n=7,435–7,479). Tổng: **drift
+replicate 12/12 perp asset đã test** (ETH/DOGE/AVAX/BNB/XRP/ADA/LINK/ATOM/DOT/LTC/SOL + H4a2
+phó). EOSUSDT đã delisted khỏi fapi (chỉ có data lịch sử) — loại khỏi ensemble. Đây là
+bằng chứng cross-section mạnh nhất chương trình: hiệu ứng không phụ thuộc asset cụ thể.
+
+**Ensemble-11 stress-gated (8 cũ + ATOM/DOT/LTC, cấu hình frozen W5):**
+- TRAIN: +0.0351R, CI [+0.0080, +0.0596], n=3,216, DD 11.0% — CI > 0 NHƯNG expectancy < 0.05R
+- VAL: +0.0244R (dương, PF 1.23); OOS1: +0.0101R (dương, PF 1.09)
+- Verdict W7_ensemble12_stress_checked: **kill theo pre-registration** (train ex < 0.05R)
+
+**Kết luận so sánh trực tiếp (cùng window, cùng engine):**
+| Cấu hình stress-gated | TRAIN exR | n | OOS1 exR |
+|---|---|---|---|
+| **ensemble-8 (W5b)** | **+0.0551R** | 3,095 | +0.0378R |
+| ensemble-11 (W7) | +0.0351R | 3,216 | +0.0101R |
+
+→ **Thêm symbol DILUTE expectancy** (SL thiên tai theo symbol + giảm tập trung stress trong
+pocket $50/symbol). Cấu hình OOS2 tối ưu vẫn là **ensemble-8 stress-gated của W5** — không
+đổi. Bài học 23: breadth cải thiện置信 CI ở tầng drift, nhưng dilute R-economics ở tầng
+implementation; tối ưu cổng go-live = chọn subset, không phải thêm không giới hạn.
+
+**Trạng thái vé OOS2: ĐÃ CỦNG CỐ ở tầng cơ chế (12/12 drift), cấu hình OOS2 giữ nguyên
+ensemble-8 stress-gated (TRAIN +0.0551R, CI [+0.0128, +0.1017], SQN 4.36).** Token OOS2
+one-shot vẫn là quyết định của bạn.

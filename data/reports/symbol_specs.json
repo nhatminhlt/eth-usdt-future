@@ -31,7 +31,7 @@
   "min_qty": 1.0,
   "min_notional": 5.0
  },
- "_note": "Snapshot fapi/v1/exchangeInfo 2026-09-20 \u2014 d\u00f9ng cho backtest cross-symbol (minNotional ETH=20!) + W3 8-symbol expansion 2026-09-20",
+ "_note": "Snapshot fapi/v1/exchangeInfo 2026-09-20 — dùng cho backtest cross-symbol (minNotional ETH=20!) + W3 8-symbol expansion 2026-09-20 — EOSUSDT DELISTED khỏi fapi exchangeInfo 2026 → loại khỏi ensemble (chỉ có data lịch sử) — EOSUSDT delisted (loại); ATOM/DOT/LTC thêm W7",
  "BNBUSDT": {
   "status": "TRADING",
   "contract_type": "PERPETUAL",
@@ -62,6 +62,30 @@
   "tick_size": 0.001,
   "step_size": 0.01,
   "min_qty": 0.01,
+  "min_notional": 20.0
+ },
+ "ATOMUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 0.001,
+  "step_size": 0.01,
+  "min_qty": 0.01,
+  "min_notional": 5.0
+ },
+ "DOTUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 0.0001,
+  "step_size": 0.1,
+  "min_qty": 0.1,
+  "min_notional": 5.0
+ },
+ "LTCUSDT": {
+  "status": "TRADING",
+  "contract_type": "PERPETUAL",
+  "tick_size": 0.01,
+  "step_size": 0.001,
+  "min_qty": 0.001,
   "min_notional": 20.0
  }
 }
