@@ -2,8 +2,8 @@
 
 > Ghi đè 4 Wave nghiên cứu trong 1 ngày (2026-09-20): Wave 1 (menu PLAN), Wave 2 (nguồn thông tin
 > mới — premium basis), Wave 3 (cấu trúc không-tuning), Wave 4 (feed practitioner — Gate Wiki).
-> **Ledger: 58 kiểm định pre-registered — 15 pass event-study, 43 kill; MỌI trading implementation
-> đều kill qua đủ chuỗi TRAIN→VAL→OOS1.**
+> **Ledger: 59 rows — 15 pass event-study, 43 kill, 1 pending (FINAL OOS2 pre-registered chưa tiêu). MỌI trading implementation
+> kill qua đủ chuỗi TRAIN→VAL→OOS1.**
 
 ## Verdict cuối
 
@@ -158,7 +158,7 @@ segment với CI > 0; frequency 867/y (TRAIN) và 302/y (OOS1) ≥ 200.
 
 **Trạng thái pre-registration:** `W5_stress_gated_ensemble8_OOS2` (pending) — one-shot
 FINAL OOS2 (2025-09→2026-08) đã được đăng ký criteria (expectancy>0, CI95 lo>0, n≥100) TRƯỚC
-khi chạy. OOS2-data 7 symbol đang tải nền. **Token OOS2 là quyết định của user** vì rule
+khi chạy. OOS2-data 7 symbol đã tải đủ (11/11 tháng mỗi symbol). **Token OOS2 là quyết định của user** vì rule
 OOS1-CI chênh nhẹ chưa khép — tiêu bây giờ = chấp nhận 1 phát quyết định cho cả lớp.
 
 Ba lựa chọn tại bước này:
@@ -175,6 +175,45 @@ Ba lựa chọn tại bước này:
 3. **Venue/fee tier thấp hơn** — RT < 0.05% đổi phép chiếu; cùng cấu trúc vượt gate trên paper.
 4. **Chấp nhận NO-GO** — hệ thống giữ làm nền tảng research; FINAL OOS2 giữ đóng băng.
 
+## 9. Wave 6 — feed từ 4 tài liệu `exp/` của user (2026-09-20 — phân tích, chưa test)
+
+User gửi 4 tài liệu practitioner: `exp/deepseek.md` (TA tổng hợp + quản trị rủi ro), `exp/dola.md`
+(multiframe structure + 3 chiến lược), `exp/qwen.json` (soup 24 mục — clearly giàu nhất),
+`exp/z.md` (checklist + partial TP scheme). Đối chiếu với ledger — **phân loại 3 nhóm:**
+
+### 9a. Trùng ledger — đã đo, không test lại
+| Đề xuất trong tài liệu | Đã đo ở đâu |
+|---|---|
+| RSI quá bán <30 → bounce | H9/H9c (Wave 4): PASS event-study t=9.12 nhưng KILL — drift episodic, không có entry tradeable |
+| Short khi phá hỗ trợ | H10 — **dữ liệu PHỦ ĐỊNH** (breakdown → bounce +0.143% t=6.65) |
+| OI↓ + giá↑ = squeeze, cẩn thận long-side | H4d (squeeze → drift long, PASS event nhưng impl kill); câu hỏi fade-squeeze SHORT là mới — xếp nhóm 9b |
+| Tránh FOMC/CPI/NFP, funding blackout | Activity mask trong engine (sẵn có, test được qua ablation) |
+| Xác nhận giao với BTC trước khi vào SOL | H2b/seesaw context — replicate 8/8 đã là core của edge family |
+| Bull flag / theo xu hướng EMA / MACD phân kỳ | Breakout class chết vì chi phí (S1-S3 6/6 atoms kill, luật 16); H7 TSMOM flips KILL |
+| SL "rộng hơn để tránh bị quét" | Đã encode: SL thiên tai \|MAE q05\| + governed sizing (luật 19) |
+
+### 9b. Atom MỚI codable — xếp hàng chờ event-study (theo thứ tự ưu tiên với fade class đã chứng minh)
+1. **H11 — wick-sweep fade** (qwen §12 quét thanh khoản + deepseek "wicks thường xuyên quét SL"):
+   nến có low vượt đáy 48-bar NHƯNG close quay lại range → long. Khác H10b (wide-close-based):
+   sweep-dựa-râu có **điểm entry cụ thể theo bar** — khả năng sửa trực tiếp vấn đề episode-cluster
+   của RSI-H9. Gate M2.5 mặc định.
+2. **H13 — squeeze-fade SHORT** (deepseek cảnh báo #1: giá↑ + OI↓ = squeeze không bền → drift xuoeif
+   §uống): OI↓ N bar + giá↑ → drift hướng XUỐNG. Hướng short chưa khai thác; data OI 5m sẵn có
+   (SOL 1753 ngày). NOTE: H4d squeeze→long PASS event nhưng impl kill — về net-cost, short-squeeze
+   fade PHẢI được đo cùng cách.
+3. **H12 — VWAP-stretch fade** (qwen chiến lược 5 day-trade VWAP): |close − VWAP|/giá z-score "
+   >2" → drift về VWAP. Lớp fade; intraday VWAP reset 00:00 UTC; "stretch" đo trực tiếp trong dataset
+   đủ_READY. Điều kiện cần: stretch phải đạt khi ATR bậc cao (stress gate) mới đủ cost margin.
+
+### 9c. Best-practice — đã encode hoặc không định lượng được
+| Từ tài liệu | Trạng thái |
+|---|---|
+| Partial TP 50%→BE, 30%→TP2, 20% trailing (z.md) | Engine có partial-exit + BE-trail (W4, fill 47% đo được); trailing = follow-up nếu H11/H13 pass |
+| Risk 0.5–1%/lệnh, đòn bẩy cap | settings.risk + governed sizing |
+| R:R ≥ 1.5–2, "không gồng", nh decisão kết log hàng ngày | Horizon exit + SL thiên tai = hình dạng R cụ thể; nhật ký = M6 journal (chưa build) |
+| "Đa khung 1D→4H→M5" | Channel-agnostic (engine M5 với holding bar); regime attribution giữ vai 1D |
+| Checklist ≥2-missing→skip | Meta-discipline — nằm ở quy trình pre-registered, không backtest được như event atom |
+
 ---
 *Files chi tiết: `data/reports/*.json` (mỗi pre-registration một file), `hypothesis_ledger.jsonl`
-(58 rows). Mọi số trong báo cáo này đo từ dữ liệu thật, không chiếu hợp.*
+(59 rows: 58 verdict + 1 pending OOS2). Mọi số trong báo cáo này đo từ dữ liệu thật, không chiếu hợp.*
