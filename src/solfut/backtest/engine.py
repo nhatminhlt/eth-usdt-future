@@ -23,7 +23,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from solfut.backtest.account import size_position, size_position_governed
+from solfut.backtest.account import floor_lot, size_position, size_position_governed
 from solfut.backtest.costs import CostModel, FundingSchedule
 
 
@@ -50,6 +50,8 @@ def run_backtest(
     contract: dict | None = None,
     exit_maker: bool = False,
     exit_patience: int = 12,
+    partial_be: bool = False,
+    partial_pct: float | None = None,
 ) -> BacktestResult:
     assert bound in ("sl_first", "tp_first"), "bound phải là sl_first | tp_first"
     assert scenario in ("maker_base", "taker_worst"), f"kịch bản lạ: {scenario}"
@@ -79,7 +81,7 @@ def run_backtest(
     equity = float(equity_start)
     busy_until = -1            # bar cuối mà vị thế/order đang chiếm chỗ (entry phải > busy_until)
     n_skip_position = n_skip_activity = n_skip_size = n_skip_eod = n_missed = 0
-    n_time_maker = n_time_fallback = 0
+    n_time_maker = n_time_fallback = n_partial_filled = 0
 
     for i in range(len(sig)):
         if not valid[i]:
@@ -148,10 +150,24 @@ def run_backtest(
         entry_fee, entry_slip = notional * fee_r, notional * slip_r
 
         # --- EXIT SCAN ---
+        # partial_be: chốt 50% tại mức partial (limit touch-fill, phí maker) LẦN ĐẦU giá chạm;
+        # sau đó SL phần còn lại dời về entry (BE — stop-market). Bất biến same-bar (bi quan):
+        # trong 1 nến, thứ tự ưu tiên = SL(trước partial) → partial → BE-stop phần còn lại.
         exit_t, exit_price, reason = -1, np.nan, ""
         j0 = entry_t if entry_style == "post_only_limit" else entry_t + 1
+        lot_cfg = contract if contract else {
+            "lot_step": 0.01, "min_qty": 0.01, "min_notional": 5.0, "leverage_cap": 5}
+        partial_level = entry_price * (1 + direction * partial_pct) \
+            if (partial_be and partial_pct is not None and partial_pct > 0) else np.nan
+        partial_done = False
+        partial_px = np.nan
+        qty_half = 0.0
+        partial_pnl_gross = 0.0
+        partial_fee = 0.0
+        qty_rem = qty
+        sl_now = sl_price
         for j in range(j0, n):
-            sl_hit = l[j] <= sl_price if direction > 0 else h[j] >= sl_price
+            sl_hit = l[j] <= sl_now if direction > 0 else h[j] >= sl_now
             tp_hit = (h[j] >= tp_price if direction > 0 else l[j] <= tp_price) \
                 if tp_price == tp_price else False
             if sl_hit or tp_hit:
@@ -160,13 +176,34 @@ def run_backtest(
                 else:
                     hit_sl = sl_hit
                 if hit_sl:
-                    exit_price = min(o[j], sl_price) if direction > 0 else max(o[j], sl_price)
-                    reason = "sl"
+                    exit_price = min(o[j], sl_now) if direction > 0 else max(o[j], sl_now)
+                    reason = "be_stop" if (partial_done and sl_now == entry_price) else "sl"
                 else:
                     exit_price = max(o[j], tp_price) if direction > 0 else min(o[j], tp_price)
                     reason = "tp"
                 exit_t = j
                 break
+            if partial_level == partial_level and not partial_done:
+                p_hit = h[j] >= partial_level if direction > 0 else l[j] <= partial_level
+                if p_hit:
+                    qh = floor_lot(qty_rem / 2.0, lot_cfg["lot_step"])
+                    if qh >= lot_cfg["min_qty"] and (qty_rem - qh) >= lot_cfg["min_qty"]:
+                        partial_done = True
+                        partial_px = partial_level
+                        qty_half = qh
+                        qty_rem -= qh
+                        partial_pnl_gross = direction * qty_half * (partial_px - entry_price)
+                        partial_fee = qty_half * partial_px * cost.maker_fee
+                        sl_now = entry_price             # BE-trail phần còn lại
+                        # BE-stop ngay trong cùng nến (bi quan — giá đã quay về entry)
+                        be_hit = l[j] <= entry_price if direction > 0 else h[j] >= entry_price
+                        if be_hit:
+                            exit_price = min(o[j], entry_price) if direction > 0 \
+                                else max(o[j], entry_price)
+                            reason, exit_t = "be_stop", j
+                            break
+                        continue                          # phần còn lại giữ, sang nến kế
+                    partial_level = np.nan                # qty không chia được lot → bỏ partial
             if j - entry_t >= holding:
                 if exit_maker and not last_of_day[j]:
                     # Post-only SELL/BUY limit tại close[j]; SL vẫn sống trong lúc chờ;
@@ -174,10 +211,11 @@ def run_backtest(
                     # Fill rule trade-through: long thoát khi giá đi XUYÊN qua limit từ dưới lên.
                     limit_px = c[j]
                     for k in range(j + 1, min(j + 1 + exit_patience, n)):
-                        sl2 = l[k] <= sl_price if direction > 0 else h[k] >= sl_price
+                        sl2 = l[k] <= sl_now if direction > 0 else h[k] >= sl_now
                         if sl2:
-                            exit_price = min(o[k], sl_price) if direction > 0 else max(o[k], sl_price)
-                            reason, exit_t = "sl", k
+                            exit_price = min(o[k], sl_now) if direction > 0 else max(o[k], sl_now)
+                            reason = "be_stop" if (partial_done and sl_now == entry_price) else "sl"
+                            exit_t = k
                             break
                         if last_of_day[k]:
                             exit_price, reason, exit_t = c[k], "eod", k
@@ -206,21 +244,23 @@ def run_backtest(
             n_time_maker += 1
         elif reason == "time_fallback":
             n_time_fallback += 1
+        if partial_done:
+            n_partial_filled += 1
         if reason == "sl":
             fee_r, slip_r = cost.sl_cost()
         elif reason in ("tp", "time_maker"):
             fee_r, slip_r = cost.tp_cost()          # limit maker, không slippage
         else:
             fee_r, slip_r = cost.market_exit_cost()
-        exit_notional = qty * exit_price
+        exit_notional = qty_rem * exit_price
         exit_fee, exit_slip = exit_notional * fee_r, exit_notional * slip_r
 
         funding_cost = 0.0
         if funding is not None:
             funding_cost = funding.cost_between(idx[entry_t], idx[exit_t], notional, direction)
 
-        gross = direction * qty * (exit_price - entry_price)
-        cost_total = entry_fee + entry_slip + exit_fee + exit_slip + funding_cost
+        gross = partial_pnl_gross + direction * qty_rem * (exit_price - entry_price)
+        cost_total = entry_fee + entry_slip + exit_fee + exit_slip + partial_fee + funding_cost
         net = gross - cost_total
         equity += net
         busy_until = exit_t
@@ -233,7 +273,8 @@ def run_backtest(
             "sl_price": sl_price, "tp_price": tp_price,
             "qty": qty, "notional": notional, "risk_usdt": risk_usdt,
             "bars_held": exit_t - entry_t, "exit_reason": reason,
-            "gross_pnl": gross, "entry_fee": entry_fee, "exit_fee": exit_fee,
+            "partial_done": partial_done, "partial_px": partial_px, "qty_half": qty_half,
+            "gross_pnl": gross, "entry_fee": entry_fee, "exit_fee": exit_fee + partial_fee,
             "slippage": entry_slip + exit_slip, "funding_cost": funding_cost,
             "cost_total": cost_total, "net_pnl": net,
             "r_gross": gross / risk_usdt, "r_net": net / risk_usdt,
@@ -255,6 +296,7 @@ def run_backtest(
         "n_signals": int(valid.sum()), "n_trades": len(tr),
         "fill_rate_maker": fill_rate, "n_missed_maker": n_missed,
         "maker_exit_fill_rate": n_time_maker / me_denom if me_denom else None,
+        "partial_fill_rate": n_partial_filled / len(tr) if len(tr) else None,
         "n_skip_position": n_skip_position, "n_skip_activity": n_skip_activity,
         "n_skip_size": n_skip_size, "n_skip_eod_entry": n_skip_eod,
         "equity_end": equity,

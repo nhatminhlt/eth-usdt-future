@@ -296,7 +296,65 @@ def test_activity_mask_blocks_entry(cost):
     assert len(res.trades) == 0 and res.stats["n_skip_activity"] == 1
 
 
-# ---------------------------------------------------------------- metrics & gates
+# ---------------------------------------------------------------- partial + BE trail
+def test_partial_be_same_bar_stop(cost):
+    """Chốt 50% tại mức partial (touch, phí maker); BE-stop phần còn lại ngay cùng nến."""
+    # entry 100, sl 5% (95), partial 1% (101), holding 10
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 101.5, 99.8, 101),       # high 101.5 ≥ 101 → partial tại 101; low 99.8 ≤ 100 → BE-stop
+        (100, 100, 100, 100),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=10)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       partial_be=True, partial_pct=0.01)
+    tr = res.trades.iloc[0]
+    assert tr["partial_done"] == True
+    assert tr["partial_px"] == pytest.approx(101.0)
+    qh = tr["qty_half"]
+    assert qh == pytest.approx(tr["qty"] / 2, abs=0.011)   # floor lot
+    # gross = qh×(101−100) + qh×(100−100) = +qh
+    assert tr["gross_pnl"] == pytest.approx(qh * 1.0)
+    assert tr["exit_reason"] == "be_stop"
+    assert tr["exit_price"] == pytest.approx(100.0)        # BE khớp tại entry
+    assert tr["exit_fee"] == pytest.approx(qh * 101.0 * cost.maker_fee
+                                           + qh * 100.0 * cost.taker_fee)
+
+
+def test_partial_then_horizon_remainder(cost):
+    """Partial khớp, phần còn lại chạy tới horizon exit."""
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 101.4, 100.2, 101),      # partial tại 101; low 100.2 > 100 → BE không khớp
+        (100.5, 101.0, 100.4, 100.8),
+        (100.6, 101.1, 100.5, 100.9),  # holding hết tại bar 3 → thoát close 100.9
+        (100, 100, 100, 100),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=3)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       partial_be=True, partial_pct=0.01)
+    tr = res.trades.iloc[0]
+    assert tr["partial_done"] == True
+    qh = tr["qty_half"]
+    assert tr["exit_reason"] == "time"
+    assert tr["exit_price"] == pytest.approx(100.9)
+    assert tr["gross_pnl"] == pytest.approx(qh * 1.0 + qh * 0.9)
+
+
+def test_partial_never_reaches(cost):
+    """Giá không bao giờ chạm partial → lệnh chạy như bình thường, không partial."""
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 100.8, 99.5, 100),
+        (100, 100.6, 99.8, 100.2),
+        (100, 100, 100, 100),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=2)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       partial_be=True, partial_pct=0.01)
+    tr = res.trades.iloc[0]
+    assert tr["partial_done"] == False
+    assert tr["exit_reason"] == "time"
 def test_metrics_and_gates_synthetic(cost):
     rng = np.random.default_rng(0)
     n = 300

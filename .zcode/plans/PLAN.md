@@ -9,7 +9,11 @@ CI[+0.006,+0.042] n=8,252 ~+23%/năm DD 12.6% — VẪN dưới gate 0.05R; VAL 
 (3) Edge có thật nhưng regime-conditional (vol stress 2020–22; AVAX OOS1 +0.097R đúng các spike).
 Cải thiện cấu trúc không-tuning đã đo: −0.11R → +0.024R (exit structure +0.13R; maker-exit +0.007R;
 governed sizing; ensemble-8 CI chặt). Báo cáo: `data/reports/research_wave_1_report.md` + luật 18–20.
-**Wave 4 là quyết định cấu trúc của user**: gate 0.05R cho lớp governed / venue phí thấp / vốn lớn /
+W4 (2026-09-20): feed từ Gate Wiki article qua gate luật 16 — H9 RSI-oversold PASS event-study
+> (t=9.12 @8h, drift mạnh nhất chương trình) nhưng KILL ở implementation (episode-cluster: engine vào
+> bar đầu episode nên dính fall; cross-up confirm thì trễ); H10 short-the-breakdown bị dữ liệu PHỦ ĐỊNH
+> (breakdown → bounce); H10b fade-breakdown PASS event-level; engine có capability partial-exit+BE-trail
+> mới. Wave 4 là quyết định cấu trúc của user**: gate 0.05R cho lớp governed / venue phí thấp / vốn lớn /
 chấp nhận regime-conditional tần suất thấp. FINAL OOS2 vẫn đóng băng.
 
 > **Ngày:** 2026-09-19. Số liệu hợp đồng, funding, biến động đo trực tiếp từ Binance Futures API public tại thời điểm viết.

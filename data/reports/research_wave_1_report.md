@@ -1,4 +1,4 @@
-# RESEARCH WAVE 1+2+3 — BÁO CÁO TỔNG KẾT (2026-09-20)
+# RESEARCH WAVE 1+2+3(+4) — BÁO CÁO TỔNG KẾT (2026-09-20)
 
 ## Verdict: NO-GO cho giao dịch intraday→4h trên Binance perp với vốn $50 — sau 53 kiểm định pre-registered (15 event-study pass, 38 kill; MỌI trading implementation đều kill qua đủ TRAIN→VAL→OOS1)
 
@@ -109,3 +109,27 @@ mọi giả thuyết có tiêu chí pass/fail viết trước khi test (luật 1
     drift không đổi — mặc định OFF cho lớp horizon.
 
 Ledger cuối: 43 rows — 7 pass event-study (H2b SOL+ETH+DOGE+AVAX, H4a2 SOL, H4d SOL, H5b SOL), 36 kill, mọi implementation kill. Số liệu: data/reports/*.json.
+
+
+## 6. WAVE 4 — Feed từ practitioner source (câu hỏi user: "tham khảo kinh nghiệm TA trên mạng")
+
+Nguồn: Gate Wiki article "SOL/USDT Technical Analysis & Trade Plan" (2026-01-02) — nội dung
+template SEO, không backtest, claim-level. Đã gate đúng luật 16: trích atom codable →
+pre-register → event-study/implementation. Kết quả đo được:
+
+| Atom từ bài | Event-study | Implementation | Verdict |
+|---|---|---|---|
+| H9: RSI(14)<30 quá bán → bounce | **PASS — atom drift mạnh nhất**: @8h +0.335% t=9.12, @24h +0.492% t=7.23, VAL +0.104% | KILL (−0.015R): RSI<30 là chuỗi bar liên tục — engine vào bar ĐẦU episode nên dính phần còn lại của cú fall; drift thuộc các bar sâu/kh Phục hồi | KILL |
+| H9c: RSI cross-back-up >30 (confirmation của bài) | KILL (ex≈0 @1h) — cross-up đã trễ, leg đầu bounce đi rồi | — | KILL |
+| H10: phá hỗ trợ + volume → short (theo bài) | **BỊ DỮ LIỆU PHỦ ĐỊNH**: breakdown → drift LÊN +0.143% @1h t=6.65 | — | KILL (sai hướng) |
+| H10b: fade-the-breakdown (đảo chiều theo measurement) | **PASS** (+0.143% @1h t=6.65, @8h +0.307%, VAL +0.065%) | Chưa test implementation | Pass event-level |
+| Partial-exit + BE-trail ("chốt một phần, dời SL bảo vệ") | — | Engine capability MỚI: chốt 50% tại median-MFE (maker), SL còn lại → BE; 3 tests pass; partial fill 47% đo được | Reusable |
+| RR 1:5, SL 10-15%, TP 20-30%, "SOL 300/500 USD" | Không có phương pháp — bỏ | — | Bỏ |
+
+**Bài học W4 (luật bổ sung 21):** atom drift đo trên event rời rạc với label chồng lấn có thể
+phản ánh drift CỦA EPISODE chứ không phải của ENTRY RULE — RSI<30 drift thuộc các bar sâu giữa
+episode; entry bar đầu (tradeable) thì dính fall, entry confirm thì trễ. Mọi atom từ bài viết
+practitioner phải đo EVENT-STUDY + IMPLEMENTATION cả hai — drift không tradeable là kết luận
+hợp lệ (đây chính là lí do các claim trong bài không tự chuyển thành tiền).
+
+Họ RSI dừng sau 3 rows (H9/H9c/H9_impl) — đúng kỷ luật 1-variant-per-refutation.
