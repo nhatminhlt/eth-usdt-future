@@ -192,18 +192,10 @@ User gửi 4 tài liệu practitioner: `exp/deepseek.md` (TA tổng hợp + qu�
 | Bull flag / theo xu hướng EMA / MACD phân kỳ | Breakout class chết vì chi phí (S1-S3 6/6 atoms kill, luật 16); H7 TSMOM flips KILL |
 | SL "rộng hơn để tránh bị quét" | Đã encode: SL thiên tai \|MAE q05\| + governed sizing (luật 19) |
 
-### 9b. Atom MỚI codable — xếp hàng chờ event-study (theo thứ tự ưu tiên với fade class đã chứng minh)
-1. **H11 — wick-sweep fade** (qwen §12 quét thanh khoản + deepseek "wicks thường xuyên quét SL"):
-   nến có low vượt đáy 48-bar NHƯNG close quay lại range → long. Khác H10b (wide-close-based):
-   sweep-dựa-râu có **điểm entry cụ thể theo bar** — khả năng sửa trực tiếp vấn đề episode-cluster
-   của RSI-H9. Gate M2.5 mặc định.
-2. **H13 — squeeze-fade SHORT** (deepseek cảnh báo #1: giá↑ + OI↓ = squeeze không bền → drift xuoeif
-   §uống): OI↓ N bar + giá↑ → drift hướng XUỐNG. Hướng short chưa khai thác; data OI 5m sẵn có
-   (SOL 1753 ngày). NOTE: H4d squeeze→long PASS event nhưng impl kill — về net-cost, short-squeeze
-   fade PHẢI được đo cùng cách.
-3. **H12 — VWAP-stretch fade** (qwen chiến lược 5 day-trade VWAP): |close − VWAP|/giá z-score "
-   >2" → drift về VWAP. Lớp fade; intraday VWAP reset 00:00 UTC; "stretch" đo trực tiếp trong dataset
-   đủ_READY. Điều kiện cần: stretch phải đạt khi ATR bậc cao (stress gate) mới đủ cost margin.
+### 9b. Atom MỚI codable — ĐÃ TEST (W6a/W6b, Làn A — kết quả phía dưới, mục 9d)
+1. **H11 — wick-sweep fade** → **KILL**: ex +0.004% @1h (t=0.25), n=10,426 — râu quét đáy không chứa dự báo @1h; residual @4h +0.054% quá mỏng.
+2. **H13 — squeeze-fade SHORT** → **KILL**: ex −0.003% @4h (t=−0.17), n=23,529 — squeeze quadrant KHÔNG có drift ngược; (H4d squeeze→long cũng chỉ là artifact tần suất).
+3. **H12 — VWAP-stretch fade** → **PASS event-study (atom mới duy nhất)**: ex +0.214% @1h (t=7.58), +0.568% @4h, +1.327% @24h, VAL +0.370% (n=11,451) → first-bar diagnostics + implementation (mục 9d).
 
 ### 9c. Best-practice — đã encode hoặc không định lượng được
 | Từ tài liệu | Trạng thái |
@@ -217,3 +209,25 @@ User gửi 4 tài liệu practitioner: `exp/deepseek.md` (TA tổng hợp + qu�
 ---
 *Files chi tiết: `data/reports/*.json` (mỗi pre-registration một file), `hypothesis_ledger.jsonl`
 (59 rows: 58 verdict + 1 pending OOS2). Mọi số trong báo cáo này đo từ dữ liệu thật, không chiếu hợp.*
+
+## 9d. Kết quả Làn A (W6a/W6b — commit cùng ngày)
+
+| Atom | Event-study | First-bar measure | Implementation | Verdict |
+|---|---|---|---|---|
+| H11 wick-sweep fade | ex ≈ 0 @1h (t=0.25) | — | — | KILL |
+| H13 squeeze-fade short | ex ≈ 0 @4h (t=−0.17) | — | — | KILL |
+| H12 VWAP-stretch | **PASS t=7.58, +0.568% @4h** | bar đầu +0.332% @4h (n=475) — timing tradeable (khác H9!) | TRAIN maker +0.010R / taker +0.008R; VAL +0.028R PF 1.41 | KILL (net ≪ 0.05R) |
+
+H12 là atom duy nhất mà bar đầu đợt CÓ drift (timing tradeable — khác pattern H9). Nhưng số học
+không nhượng bộ: SL thiên tai 11.85% (nền của stretch-depth deep events) + capture ~60% →
+(0.332%×0.6 − 0.036% RT)/11.85% ≈ +0.015R. Cùng tường chi phí đã chốt 4 wave trước.
+
+**Bài học 22:** first-bar timing KHÔNG tự động là câu trả lời — ngay cả khi event drift dày,
+SL thiên tai (để tồn tại trong bounce-leg lớn) làm R-economics pha loãng ~10×; edge % phải quy
+đổi qua mẫu số SL của chính nó trước khi gọi là tradeable.
+
+## 10. Tổng kết Làn A → tấm vé OOS2
+
+Ledger giờ 63 rows (58 verdict Wave 1-5 + H11/H13/H12/H12_impl + W5 OOS2 pending). Làn A kết thúc: không atom exp/ nào ghép được vào stress-ensemble hiệp hơn
+cấu hình sẵn có — **tấm vé OOS2 vẫn đứng với cấu hình `W5_stress_gated_ensemble8` (entry
+ATR%≥0.80)**. Token OOS2 vẫn là quyết định của bạn: tiêu 1 phát (slot 1 ở mục 8), hoặc dừng.
