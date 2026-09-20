@@ -1,0 +1,640 @@
+{
+ "segment": "OOS2_2025-09_2026-08",
+ "one_shot": true,
+ "config": "frozen W5b ensemble-8 stress-gated",
+ "symbols": {
+  "SOLUSDT": {
+   "n_events": 102,
+   "sl_disaster_pct": 0.12659566751458423,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 36,
+      "win_rate": 0.3888888888888889,
+      "expectancy_r": -0.062468289619478465,
+      "gross_expectancy_r": -0.05943636470915677,
+      "cost_r": 0.0030319249103217005,
+      "profit_factor_gross": 0.5934956769127979,
+      "profit_factor_net": 0.5779816282230907,
+      "sqn_r": -1.253406189009236,
+      "max_dd_pct": 7.650206363453782,
+      "trades_per_year": 38.223837209302324,
+      "avg_bars_held": 44.97222222222222,
+      "equity_end": 46.87458596527501,
+      "exit_reasons": {
+       "time_maker": 32,
+       "eod": 3,
+       "sl": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 102,
+      "n_trades": 36,
+      "fill_rate_maker": 0.75,
+      "n_missed_maker": 12,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 54,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 46.874585965274996
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 47,
+      "win_rate": 0.40425531914893614,
+      "expectancy_r": -0.04905775910715123,
+      "gross_expectancy_r": -0.043260998172602184,
+      "cost_r": 0.005796760934549044,
+      "profit_factor_gross": 0.6838930948654475,
+      "profit_factor_net": 0.651129225456358,
+      "sqn_r": -1.1310028277805093,
+      "max_dd_pct": 10.16342845588075,
+      "trades_per_year": 49.903343023255815,
+      "avg_bars_held": 46.08510638297872,
+      "equity_end": 46.80014231649072,
+      "exit_reasons": {
+       "time_maker": 42,
+       "eod": 3,
+       "sl": 1,
+       "time_fallback": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 102,
+      "n_trades": 47,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": 0.9767441860465116,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 55,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 46.80014231649071
+     }
+    }
+   }
+  },
+  "ETHUSDT": {
+   "n_events": 73,
+   "sl_disaster_pct": 0.11827884744348842,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 0
+     },
+     "engine_stats": {
+      "n_signals": 73,
+      "n_trades": 0,
+      "fill_rate_maker": 0.0,
+      "n_missed_maker": 9,
+      "maker_exit_fill_rate": null,
+      "partial_fill_rate": null,
+      "n_skip_position": 2,
+      "n_skip_activity": 0,
+      "n_skip_size": 62,
+      "n_skip_eod_entry": 0,
+      "equity_end": 50.0
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 0
+     },
+     "engine_stats": {
+      "n_signals": 73,
+      "n_trades": 0,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": null,
+      "partial_fill_rate": null,
+      "n_skip_position": 0,
+      "n_skip_activity": 0,
+      "n_skip_size": 73,
+      "n_skip_eod_entry": 0,
+      "equity_end": 50.0
+     }
+    }
+   }
+  },
+  "DOGEUSDT": {
+   "n_events": 120,
+   "sl_disaster_pct": 0.16654565205457691,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 41,
+      "win_rate": 0.6097560975609756,
+      "expectancy_r": 0.004587419860588793,
+      "gross_expectancy_r": 0.007158940888100261,
+      "cost_r": 0.00257152102751147,
+      "profit_factor_gross": 1.0875878142359054,
+      "profit_factor_net": 1.0524891737111006,
+      "sqn_r": 0.12566987259179221,
+      "max_dd_pct": 2.973954494953067,
+      "trades_per_year": 43.28106936416185,
+      "avg_bars_held": 46.26829268292683,
+      "equity_end": 50.24162311543556,
+      "exit_reasons": {
+       "time_maker": 36,
+       "eod": 4,
+       "sl": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 120,
+      "n_trades": 41,
+      "fill_rate_maker": 0.7192982456140351,
+      "n_missed_maker": 16,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 63,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 50.24162311543555
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 56,
+      "win_rate": 0.6071428571428571,
+      "expectancy_r": -0.0013273549914609043,
+      "gross_expectancy_r": 0.003423730217689613,
+      "cost_r": 0.004751085209150523,
+      "profit_factor_gross": 1.0420804784027102,
+      "profit_factor_net": 0.9757240051132652,
+      "sqn_r": -0.046856717241431436,
+      "max_dd_pct": 4.3019045697944955,
+      "trades_per_year": 59.115606936416185,
+      "avg_bars_held": 46.660714285714285,
+      "equity_end": 49.85456116435315,
+      "exit_reasons": {
+       "time_maker": 50,
+       "eod": 5,
+       "sl": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 120,
+      "n_trades": 56,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 64,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 49.85456116435313
+     }
+    }
+   }
+  },
+  "AVAXUSDT": {
+   "n_events": 94,
+   "sl_disaster_pct": 0.11139122525168312,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 22,
+      "win_rate": 0.4090909090909091,
+      "expectancy_r": -0.10864194162606769,
+      "gross_expectancy_r": -0.10517803492515694,
+      "cost_r": 0.0034639067009107306,
+      "profit_factor_gross": 0.4904925509609725,
+      "profit_factor_net": 0.47843522318204124,
+      "sqn_r": -1.3706436275466434,
+      "max_dd_pct": 5.009021382097302,
+      "trades_per_year": 25.50952380952381,
+      "avg_bars_held": 44.86363636363637,
+      "equity_end": 47.67718424557657,
+      "exit_reasons": {
+       "time_maker": 18,
+       "sl": 2,
+       "time_fallback": 1,
+       "eod": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 94,
+      "n_trades": 22,
+      "fill_rate_maker": 0.5238095238095238,
+      "n_missed_maker": 20,
+      "maker_exit_fill_rate": 0.9473684210526315,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 24,
+      "n_skip_activity": 0,
+      "n_skip_size": 28,
+      "n_skip_eod_entry": 0,
+      "equity_end": 47.67718424557658
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 29,
+      "win_rate": 0.4482758620689655,
+      "expectancy_r": -0.07853433994197113,
+      "gross_expectancy_r": -0.07194274692755165,
+      "cost_r": 0.006591593014419461,
+      "profit_factor_gross": 0.5693306673045461,
+      "profit_factor_net": 0.5384874665525876,
+      "sqn_r": -1.2263729014200178,
+      "max_dd_pct": 6.2491043086372855,
+      "trades_per_year": 32.692129629629626,
+      "avg_bars_held": 45.51724137931034,
+      "equity_end": 47.66839126771657,
+      "exit_reasons": {
+       "time_maker": 26,
+       "sl": 2,
+       "eod": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 94,
+      "n_trades": 29,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 21,
+      "n_skip_activity": 0,
+      "n_skip_size": 44,
+      "n_skip_eod_entry": 0,
+      "equity_end": 47.66839126771657
+     }
+    }
+   }
+  },
+  "BNBUSDT": {
+   "n_events": 37,
+   "sl_disaster_pct": 0.12209048563348032,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 11,
+      "win_rate": 0.36363636363636365,
+      "expectancy_r": -0.08640315806657071,
+      "gross_expectancy_r": -0.08283483607070603,
+      "cost_r": 0.0035683219958646695,
+      "profit_factor_gross": 0.4381429471246081,
+      "profit_factor_net": 0.4234846334521632,
+      "sqn_r": -0.8454056258549426,
+      "max_dd_pct": 3.175117421360497,
+      "trades_per_year": 34.04872881355932,
+      "avg_bars_held": 43.63636363636363,
+      "equity_end": 48.87425926131975,
+      "exit_reasons": {
+       "time_maker": 9,
+       "sl": 1,
+       "eod": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 37,
+      "n_trades": 11,
+      "fill_rate_maker": 0.7857142857142857,
+      "n_missed_maker": 3,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 14,
+      "n_skip_activity": 0,
+      "n_skip_size": 9,
+      "n_skip_eod_entry": 0,
+      "equity_end": 48.87425926131975
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 12,
+      "win_rate": 0.5,
+      "expectancy_r": -0.06726693063346083,
+      "gross_expectancy_r": -0.060648888066494995,
+      "cost_r": 0.006618042566965829,
+      "profit_factor_gross": 0.45427208746589276,
+      "profit_factor_net": 0.42401399199539175,
+      "sqn_r": -0.707846371705493,
+      "max_dd_pct": 3.5460043931744205,
+      "trades_per_year": 13.611801242236025,
+      "avg_bars_held": 44.333333333333336,
+      "equity_end": 48.80837907356976,
+      "exit_reasons": {
+       "time_maker": 10,
+       "sl": 1,
+       "eod": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 37,
+      "n_trades": 12,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 14,
+      "n_skip_activity": 0,
+      "n_skip_size": 11,
+      "n_skip_eod_entry": 0,
+      "equity_end": 48.80837907356975
+     }
+    }
+   }
+  },
+  "XRPUSDT": {
+   "n_events": 64,
+   "sl_disaster_pct": 0.143095965932382,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 23,
+      "win_rate": 0.43478260869565216,
+      "expectancy_r": -0.10661909663280003,
+      "gross_expectancy_r": -0.1038088066932704,
+      "cost_r": 0.0028102899395296417,
+      "profit_factor_gross": 0.3746562226088437,
+      "profit_factor_net": 0.36451787642759603,
+      "sqn_r": -1.5798705442079244,
+      "max_dd_pct": 7.971465409236586,
+      "trades_per_year": 26.17056074766355,
+      "avg_bars_held": 47.43478260869565,
+      "equity_end": 46.42830964418171,
+      "exit_reasons": {
+       "time_maker": 21,
+       "sl": 1,
+       "time_fallback": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 64,
+      "n_trades": 23,
+      "fill_rate_maker": 0.8214285714285714,
+      "n_missed_maker": 5,
+      "maker_exit_fill_rate": 0.9545454545454546,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 36,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 46.4283096441817
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 28,
+      "win_rate": 0.35714285714285715,
+      "expectancy_r": -0.08915561186903058,
+      "gross_expectancy_r": -0.08385610233955722,
+      "cost_r": 0.005299509529473336,
+      "profit_factor_gross": 0.3966205239655733,
+      "profit_factor_net": 0.3737887385177892,
+      "sqn_r": -1.6764975520276022,
+      "max_dd_pct": 7.488805403973416,
+      "trades_per_year": 31.859813084112147,
+      "avg_bars_held": 47.42857142857143,
+      "equity_end": 46.401426716278294,
+      "exit_reasons": {
+       "time_maker": 27,
+       "sl": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 64,
+      "n_trades": 28,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 36,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 46.40142671627829
+     }
+    }
+   }
+  },
+  "ADAUSDT": {
+   "n_events": 133,
+   "sl_disaster_pct": 0.1175845429904312,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 52,
+      "win_rate": 0.38461538461538464,
+      "expectancy_r": -0.10668077048334015,
+      "gross_expectancy_r": -0.1031857167706789,
+      "cost_r": 0.0034950537126612756,
+      "profit_factor_gross": 0.3899394114742346,
+      "profit_factor_net": 0.3772242822479951,
+      "sqn_r": -2.3682513514529195,
+      "max_dd_pct": 16.08024261361821,
+      "trades_per_year": 55.212209302325576,
+      "avg_bars_held": 45.07692307692308,
+      "equity_end": 42.36173146247648,
+      "exit_reasons": {
+       "time_maker": 46,
+       "sl": 3,
+       "eod": 3
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 133,
+      "n_trades": 52,
+      "fill_rate_maker": 0.7323943661971831,
+      "n_missed_maker": 19,
+      "maker_exit_fill_rate": 1.0,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 62,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 42.36173146247647
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 66,
+      "win_rate": 0.4393939393939394,
+      "expectancy_r": -0.07987885409168885,
+      "gross_expectancy_r": -0.07309065306128845,
+      "cost_r": 0.0067882010304003825,
+      "profit_factor_gross": 0.49748821827009787,
+      "profit_factor_net": 0.46596900557834997,
+      "sqn_r": -2.080302466757963,
+      "max_dd_pct": 16.022218759228497,
+      "trades_per_year": 69.47118155619596,
+      "avg_bars_held": 45.46969696969697,
+      "equity_end": 42.662115233595514,
+      "exit_reasons": {
+       "time_maker": 57,
+       "eod": 5,
+       "sl": 3,
+       "time_fallback": 1
+      },
+      "expectancy_ci95": [
+       NaN,
+       NaN
+      ]
+     },
+     "engine_stats": {
+      "n_signals": 133,
+      "n_trades": 66,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": 0.9827586206896551,
+      "partial_fill_rate": 0.0,
+      "n_skip_position": 67,
+      "n_skip_activity": 0,
+      "n_skip_size": 0,
+      "n_skip_eod_entry": 0,
+      "equity_end": 42.66211523359551
+     }
+    }
+   }
+  },
+  "LINKUSDT": {
+   "n_events": 111,
+   "sl_disaster_pct": 0.1224761035419651,
+   "runs": {
+    "maker_base": {
+     "metrics": {
+      "n_trades": 0
+     },
+     "engine_stats": {
+      "n_signals": 111,
+      "n_trades": 0,
+      "fill_rate_maker": 0.0,
+      "n_missed_maker": 24,
+      "maker_exit_fill_rate": null,
+      "partial_fill_rate": null,
+      "n_skip_position": 10,
+      "n_skip_activity": 0,
+      "n_skip_size": 77,
+      "n_skip_eod_entry": 0,
+      "equity_end": 50.0
+     }
+    },
+    "taker_worst": {
+     "metrics": {
+      "n_trades": 0
+     },
+     "engine_stats": {
+      "n_signals": 111,
+      "n_trades": 0,
+      "fill_rate_maker": null,
+      "n_missed_maker": 0,
+      "maker_exit_fill_rate": null,
+      "partial_fill_rate": null,
+      "n_skip_position": 0,
+      "n_skip_activity": 0,
+      "n_skip_size": 111,
+      "n_skip_eod_entry": 0,
+      "equity_end": 50.0
+     }
+    }
+   }
+  }
+ },
+ "entries": {
+  "maker_base": {
+   "metrics": {
+    "n_trades": 185,
+    "expectancy_r": -0.07243768083357265,
+    "ci95": [
+     -0.1280340224649793,
+     0.0016250683350965357
+    ],
+    "profit_factor_net": 0.5167502245775479,
+    "sqn_r": -3.2022710467326085,
+    "max_dd_pct": 6.4608269454546745,
+    "equity_end": 282.45769369426506,
+    "total_net_usdt": -17.542306305734925,
+    "win_rate": 0.44324324324324327,
+    "trades_per_year": 191.4199716713881,
+    "by_symbol_expectancy": {
+     "ADAUSDT": -0.1067,
+     "AVAXUSDT": -0.1086,
+     "BNBUSDT": -0.0864,
+     "DOGEUSDT": 0.0046,
+     "SOLUSDT": -0.0625,
+     "XRPUSDT": -0.1066
+    },
+    "pass_criteria": false
+   }
+  },
+  "taker_worst": {
+   "metrics": {
+    "n_trades": 238,
+    "expectancy_r": -0.0556012902767266,
+    "ci95": [
+     -0.11961285984002926,
+     0.00030362815414608106
+    ],
+    "profit_factor_net": 0.5737495281119435,
+    "sqn_r": -2.969267479755759,
+    "max_dd_pct": 7.743988047941416,
+    "equity_end": 282.195015772004,
+    "total_net_usdt": -17.80498422799599,
+    "win_rate": 0.46638655462184875,
+    "trades_per_year": 244.8718309859155,
+    "by_symbol_expectancy": {
+     "ADAUSDT": -0.0799,
+     "AVAXUSDT": -0.0785,
+     "BNBUSDT": -0.0673,
+     "DOGEUSDT": -0.0013,
+     "SOLUSDT": -0.0491,
+     "XRPUSDT": -0.0892
+    },
+    "pass_criteria": false
+   }
+  }
+ },
+ "verdict": "kill"
+}

@@ -259,3 +259,39 @@ implementation; tối ưu cổng go-live = chọn subset, không phải thêm kh
 **Trạng thái vé OOS2: ĐÃ CỦNG CỐ ở tầng cơ chế (12/12 drift), cấu hình OOS2 giữ nguyên
 ensemble-8 stress-gated (TRAIN +0.0551R, CI [+0.0128, +0.1017], SQN 4.36).** Token OOS2
 one-shot vẫn là quyết định của bạn.
+
+## 12. OOS2 ONE-SHOT — ĐÃ TIÊU (2026-09-20, quyết định user): **VERDICT: KILL**
+
+Cấu hình frozen W5b ensemble-8 stress-gated, một lần duy nhất, trên 2025-09→2026-08:
+
+- **Portfolio maker/maker: n=185 lệnh, expectancy −0.0724R, CI95 [−0.128, +0.0016], PF 0.52, DD 6.5%, net −17.54 USDT / 4×$50.** FAIL mọi tiêu chí pre-registered (expectancy>0, CI lo>0).
+- Taker-entry đối chiếu: −0.0556R, PF 0.57 — cùng dấu.
+- Per-symbol: chỉ DOGE ≈ flat (+0.005R); mọi symbol khác âm (−0.06…−0.11R). ETH/LINK 0 lệnh (minNotional + fill gating).
+- Bối cảnh: OOS2 chỉ chứa 37–133 stress events/symbol (hiếm hơn TRAIN hẳn); ngay cả khi stress xảy ra, fade thua (PF 0.52).
+- Verdict ghi ledger `W5_stress_gated_ensemble8_OOS2 → kill` — **không re-run theo pre-registration.**
+
+**Đường cong đầy đủ của ứng viên (cùng cấu hình, 4 segment):**
+TRAIN +0.0551R (CI>0, SQN 4.36) → VAL +0.014R → OOS1 +0.038R (CI mở) → **OOS2 −0.072R**.
+Thuật toán decay tuần tự theo thời gian; ở năm 2025–26 edge đã đảo dấu kể cả khi có stress.
+Cơ chế ban đầu (liquidity refill sau forced selling) dường như đã mất vai trò dự báo ở thị trường 2025–26.
+
+## 13. KẾT CHUNG CUỐI CÙNG CỦA CHƯƠNG TRÌNH RESEARCH (Waves 1–7)
+
+**NO-GO CHỐT DỨT cho lớp fade/mean-reversion intraday→4h trên Binance perp với vốn $50 (và theo phép mở rộng, vốn cỡ nhỏ nói chung).** Ledger 67 rows — 19 drift event-pass, 48 kill; mọi
+implementation đi đủ chuỗi TRAIN→VAL→OOS1(→OOS2 khi có vé) đều tiêu. Ba cánh cửa đã đóng có
+bằng chứng, không phải cảm tính:
+1. Chi phí/SL arithmetic: drift fade thực tế ≤0.33%/event × capture ~60% không bao giờ vượt
+   0.05R × SL 6–17%.
+2. Regime: edge sống 2020–22, chết 2023+ (OOS2 đảo dấu).
+3. Quy trình đã chống overfit đúng nghĩa: chọn-lọc 19 drift-pass trên nhiều nguồn
+   (institution — Gate Wiki, exp/ feed) vẫn chết ở implementation/OOS → edge hình Elias là
+   thật nhưng không tradeable với các cấu hình re-permitted.
+
+**Tài sản giữ lại:** hạ tầng data+engine+metrics (34 tests), quy trình pre-registration
+(ledger 67 rows), bộ bài học đã định lượng (chi phí/SL arithmetic, regime decay, episodic drift), và một mức
+stress-attribution framework tái sử dụng cho mọi giả thuyết tương lai.
+
+**Hướng còn mở (chỉ khi user chủ động):** (a) Track B carry mania-conditional như income phụ
+(đã đo: chỉ 2021); (b) đổi venue/fee tier (renegotiate RT) — cùng cấu trúc trên sẽ khác phép
+chiếu; (c) dự án nghiên cứu mới với source data MỚI (Deribit H8); (d) dừng — dùng repo làm
+đổi nền tảng research.
