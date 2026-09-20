@@ -8,7 +8,7 @@ CI[+0.006,+0.042] n=8,252 ~+23%/năm DD 12.6% — VẪN dưới gate 0.05R; VAL 
 (2) Số học bất khả: gate 0.05R ⇔ drift > ~0.8%/event với SL thiên tai 6–11% — không đạt bền.
 (3) Edge có thật nhưng regime-conditional (vol stress 2020–22; AVAX OOS1 +0.097R đúng các spike).
 Cải thiện cấu trúc không-tuning đã đo: −0.11R → +0.024R (exit structure +0.13R; maker-exit +0.007R;
-governed sizing; ensemble-8 CI chặt). Báo cáo: `data/reports/research_wave_1_report.md` + luật 18–20.
+governed sizing; ensemble-8 CI chặt). Báo cáo: `data/reports/research_total_report.md` + luật 18–20.
 W4 (2026-09-20): feed từ Gate Wiki article qua gate luật 16 — H9 RSI-oversold PASS event-study
 > (t=9.12 @8h, drift mạnh nhất chương trình) nhưng KILL ở implementation (episode-cluster: engine vào
 > bar đầu episode nên dính fall; cross-up confirm thì trễ); H10 short-the-breakdown bị dữ liệu PHỦ ĐỊNH
