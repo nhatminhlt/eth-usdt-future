@@ -48,6 +48,8 @@ def run_backtest(
     risk_cap_pct: float = 2.0,
     lev_cap_eff: float = 1.0,
     contract: dict | None = None,
+    exit_maker: bool = False,
+    exit_patience: int = 12,
 ) -> BacktestResult:
     assert bound in ("sl_first", "tp_first"), "bound phải là sl_first | tp_first"
     assert scenario in ("maker_base", "taker_worst"), f"kịch bản lạ: {scenario}"
@@ -77,6 +79,7 @@ def run_backtest(
     equity = float(equity_start)
     busy_until = -1            # bar cuối mà vị thế/order đang chiếm chỗ (entry phải > busy_until)
     n_skip_position = n_skip_activity = n_skip_size = n_skip_eod = n_missed = 0
+    n_time_maker = n_time_fallback = 0
 
     for i in range(len(sig)):
         if not valid[i]:
@@ -165,7 +168,33 @@ def run_backtest(
                 exit_t = j
                 break
             if j - entry_t >= holding:
-                exit_price, reason, exit_t = c[j], "time", j
+                if exit_maker and not last_of_day[j]:
+                    # Post-only SELL/BUY limit tại close[j]; SL vẫn sống trong lúc chờ;
+                    # huỷ limit ở cuối ngày (→ market); hết patience → fallback market.
+                    # Fill rule trade-through: long thoát khi giá đi XUYÊN qua limit từ dưới lên.
+                    limit_px = c[j]
+                    for k in range(j + 1, min(j + 1 + exit_patience, n)):
+                        sl2 = l[k] <= sl_price if direction > 0 else h[k] >= sl_price
+                        if sl2:
+                            exit_price = min(o[k], sl_price) if direction > 0 else max(o[k], sl_price)
+                            reason, exit_t = "sl", k
+                            break
+                        if last_of_day[k]:
+                            exit_price, reason, exit_t = c[k], "eod", k
+                            break
+                        if direction > 0 and (o[k] > limit_px or h[k] > limit_px):
+                            exit_price = o[k] if o[k] > limit_px else limit_px
+                            reason, exit_t = "time_maker", k
+                            break
+                        if direction < 0 and (o[k] < limit_px or l[k] < limit_px):
+                            exit_price = o[k] if o[k] < limit_px else limit_px
+                            reason, exit_t = "time_maker", k
+                            break
+                    if exit_t < 0:      # không fill trong patience → fallback market
+                        kf = min(j + exit_patience, n - 1)
+                        exit_price, reason, exit_t = c[kf], "time_fallback", kf
+                else:
+                    exit_price, reason, exit_t = c[j], ("eod" if last_of_day[j] else "time"), j
                 break
             if last_of_day[j]:
                 exit_price, reason, exit_t = c[j], "eod", j
@@ -173,10 +202,14 @@ def run_backtest(
         if exit_t < 0:                                      # hết dữ liệu chưa thoát
             exit_price, reason, exit_t = c[n - 1], "eod", n - 1
 
+        if reason == "time_maker":
+            n_time_maker += 1
+        elif reason == "time_fallback":
+            n_time_fallback += 1
         if reason == "sl":
             fee_r, slip_r = cost.sl_cost()
-        elif reason == "tp":
-            fee_r, slip_r = cost.tp_cost()
+        elif reason in ("tp", "time_maker"):
+            fee_r, slip_r = cost.tp_cost()          # limit maker, không slippage
         else:
             fee_r, slip_r = cost.market_exit_cost()
         exit_notional = qty * exit_price
@@ -217,9 +250,11 @@ def run_backtest(
         fill_rate = len(tr) / denom if denom else None
     else:
         fill_rate = None
+    me_denom = n_time_maker + n_time_fallback
     stats = {
         "n_signals": int(valid.sum()), "n_trades": len(tr),
         "fill_rate_maker": fill_rate, "n_missed_maker": n_missed,
+        "maker_exit_fill_rate": n_time_maker / me_denom if me_denom else None,
         "n_skip_position": n_skip_position, "n_skip_activity": n_skip_activity,
         "n_skip_size": n_skip_size, "n_skip_eod_entry": n_skip_eod,
         "equity_end": equity,

@@ -1,14 +1,16 @@
 # PLAN V2: Hệ thống giao dịch SOLUSDT Perpetual Futures trên Binance — Chuyển đổi từ plan EURUSD M5/MT5
 
-> **⚠️ TRẠNG THÁI SAU RESEARCH WAVE 1+2 (2026-09-20) — NO-GO chốt cho lớp intraday→4h:** 43 kiểm định
-> pre-registered (ledger 43 rows — 7 pass event-study, 36 kill; MỌI trading implementation kill).
-> Kết luận trung tâm: (1) H2b BTC-seesaw fade THẬT, replicate 4/4 symbol (t=3.3–7.7), nhưng chỉ regime
-> vol 2020–22 — VAL 2023-24 âm sau chi phí; (2) H5b premium-basis thấp → long PASS event-study (t=4.17)
-> nhưng chết ở implementation; (3) **số học bất khả**: r_net ≈ (drift×capture − RT)/sl với SL thiên tai
-> 6–11% → cần drift > ~0.8%/event để vượt gate 0.05R — không đạt ở mọi cấu hình được plan cho phép.
-> Báo cáo: `data/reports/research_wave_1_report.md` + luật 18–20. Wave 3 đòi hỏi thay đổi cấu trúc
-> (nguồn thông tin mới H8 Deribit / venue phí thấp / vốn lớn hơn / từ bỏ gate 0.05R cho lớp governed)
-> — quyết định của user. OOS1/FINAL OOS2 chưa đụng — giữ đóng băng.
+> **⚠️ TRẠNG THÁI SAU RESEARCH WAVE 1+2+3 (2026-09-20) — NO-GO chốt, có Receipts đầy đủ:** 53 kiểm định
+pre-registered (ledger 53 rows — 15 event-study pass, 38 kill; MỌI trading implementation kill qua đủ
+TRAIN→VAL→OOS1). H2b BTC-seesaw replicate **8/8 symbol** (t=4.9–7.7) nhưng: (1) cấu hình tốt nhất
+(ensemble-8, maker/maker RT 0.036%, governed sizing, horizon exit + disaster SL): TRAIN +0.0235R
+CI[+0.006,+0.042] n=8,252 ~+23%/năm DD 12.6% — VẪN dưới gate 0.05R; VAL −0.008R; OOS1 +0.002R CI chứa 0.
+(2) Số học bất khả: gate 0.05R ⇔ drift > ~0.8%/event với SL thiên tai 6–11% — không đạt bền.
+(3) Edge có thật nhưng regime-conditional (vol stress 2020–22; AVAX OOS1 +0.097R đúng các spike).
+Cải thiện cấu trúc không-tuning đã đo: −0.11R → +0.024R (exit structure +0.13R; maker-exit +0.007R;
+governed sizing; ensemble-8 CI chặt). Báo cáo: `data/reports/research_wave_1_report.md` + luật 18–20.
+**Wave 4 là quyết định cấu trúc của user**: gate 0.05R cho lớp governed / venue phí thấp / vốn lớn /
+chấp nhận regime-conditional tần suất thấp. FINAL OOS2 vẫn đóng băng.
 
 > **Ngày:** 2026-09-19. Số liệu hợp đồng, funding, biến động đo trực tiếp từ Binance Futures API public tại thời điểm viết.
 > **Bài học V1** (dự án `C:\Project\solusdt-future`, báo cáo 2026-09-14): framework đạt nhưng **edge NO-GO** — chi phí taker ~1.9 USD/lệnh gấp ~15 lần gross expectancy; gross ensemble −507 USD nhưng net −1,724 USD. V2 mã hóa các bài học này thành luật cứng (mục 11).

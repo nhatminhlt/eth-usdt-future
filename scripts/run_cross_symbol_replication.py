@@ -28,7 +28,7 @@ from solfut.data.downloader import DATA_DIR, load_monthlies
 from solfut.research import events, hypotheses as hl
 from solfut.research.splits import split_mask
 
-SYMBOLS = ["ETHUSDT", "DOGEUSDT", "AVAXUSDT"]
+SYMBOLS = ["BNBUSDT", "XRPUSDT", "ADAUSDT", "LINKUSDT"]   # W3 universe expansion (đợt 2)
 T_START = pd.Timestamp("2020-10-01", tz="UTC")
 T_END = pd.Timestamp("2023-06-30 23:59", tz="UTC")
 CRITERIA = {"excess_min_pct": 0.0005, "t_min": 2.0, "horizon": "+1h"}   # giống hệt bản SOL gốc

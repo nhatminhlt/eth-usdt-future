@@ -175,6 +175,83 @@ def test_maker_patience_expiry(cost):
     assert res2.stats["n_skip_position"] == 1
 
 
+# ---------------------------------------------------------------- maker exit
+def test_maker_exit_fills_on_trade_through(cost):
+    """Time-exit qua limit maker: giá đi XUYÊN qua close thoát → khớp tại limit, phí maker."""
+    # entry bar 0, holding 2 → quyết định thoát tại close bar 2 = 100; bar 3 xuyên lên 101
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 100, 99.5, 100),
+        (100, 100, 100, 100),          # close 100 = mức limit thoát
+        (100, 101, 99.8, 100.8),       # high 101 > 100 → khớp tại 100 (trade-through)
+        (100, 100, 100, 100),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=2)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       exit_maker=True, exit_patience=3)
+    tr = res.trades.iloc[0]
+    assert tr["exit_reason"] == "time_maker"
+    assert tr["exit_time"] == ohlc.index[3]
+    assert tr["exit_fee"] == pytest.approx(tr["qty"] * tr["exit_price"] * cost.maker_fee)
+    assert tr["slippage"] == pytest.approx(tr["qty"] * tr["entry_price"] * cost.taker_slippage)
+
+
+def test_maker_exit_fallback_when_no_fill(cost):
+    """Giá không quay lại → hết patience → fallback market taker."""
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 100, 99.5, 99.6),
+        (100, 100, 100, 99.0),         # close thoát 99.0
+        (98.5, 98.6, 98, 98.2),        # rơi tiếp — không fill (high < 99)
+        (98.0, 98.2, 97.8, 98.0),
+        (98.0, 98.0, 97.5, 97.6),      # bar patience cuối (j+3) → fallback tại close 97.6
+        (97.6, 97.8, 97.4, 97.6),      # nến thêm để bar trên không phải cuối dataset
+        (97.6, 97.8, 97.4, 97.6),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=2)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       exit_maker=True, exit_patience=3)
+    tr = res.trades.iloc[0]
+    assert tr["exit_reason"] == "time_fallback"
+    assert tr["exit_price"] == pytest.approx(97.6)
+    assert res.stats["maker_exit_fill_rate"] == 0.0
+
+
+def test_maker_exit_gap_up_fills_at_open(cost):
+    """Gap lên trên limit → khớp tại open (giá tốt hơn cho người bán)."""
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 100, 99.5, 100),
+        (100, 100, 100, 100),          # limit thoát = 100
+        (101.5, 102, 101, 101.5),      # open 101.5 > 100 → khớp 101.5
+        (100, 100, 100, 100),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=2)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       exit_maker=True, exit_patience=3)
+    tr = res.trades.iloc[0]
+    assert tr["exit_reason"] == "time_maker"
+    assert tr["exit_price"] == pytest.approx(101.5)
+
+
+def test_maker_exit_sl_priority_during_wait(cost):
+    """SL vẫn sống trong lúc chờ fill: giá sập xuyên SL → thoát stop-market ưu tiên."""
+    ohlc = make_ohlc([
+        (100, 100, 100, 100),
+        (100, 100, 99.5, 100),
+        (100, 100, 100, 100),          # limit thoát = 100
+        (99.0, 99.2, 98.0, 98.5),      # low 98 < SL 95? — SL = 100×0.95 = 95; chưa xuyên
+        (95.5, 95.8, 94.0, 94.5),      # low 94 < 95 → SL khớp tại 95
+        (94, 94, 93, 93.5),
+    ])
+    sig = make_signals(ohlc, [0], sl_pct=0.05, tp_pct=0.20, holding=2)
+    res = run_backtest(ohlc, sig, cost, scenario="taker_worst", bound="sl_first",
+                       exit_maker=True, exit_patience=3)
+    tr = res.trades.iloc[0]
+    assert tr["exit_reason"] == "sl"
+    assert tr["exit_price"] == pytest.approx(95.0)
+
+
 # ---------------------------------------------------------------- costs & funding
 def test_cost_math_exact(cost):
     """Phí/slippage từng bên tính đúng theo kịch bản taker_worst."""

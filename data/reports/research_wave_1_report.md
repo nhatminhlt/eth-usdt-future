@@ -1,6 +1,29 @@
-# RESEARCH WAVE 1 + 2 — BÁO CÁO TỔNG KẾT (2026-09-20)
+# RESEARCH WAVE 1+2+3 — BÁO CÁO TỔNG KẾT (2026-09-20)
 
-## Verdict: NO-GO cho giao dịch intraday→4h trên Binance perp với vốn $50 — sau 43 kiểm định pre-registered (7 event-study pass, 36 kill; MỌI trading implementation đều kill)
+## Verdict: NO-GO cho giao dịch intraday→4h trên Binance perp với vốn $50 — sau 53 kiểm định pre-registered (15 event-study pass, 38 kill; MỌI trading implementation đều kill qua đủ TRAIN→VAL→OOS1)
+
+## 0. WAVE 3 — "Chiến lược tốt hơn KHÔNG cần tuning tham số" (câu trả lời đo đạc)
+
+Cải thiện cấu trúc đã nâng expectancy portfolio từ −0.11R → +0.024R (TRAIN), toàn bộ KHÔNG đụng vào tham số tín hiệu:
+
+| Đòn bẩy cấu trúc | Trước → Sau | Tác động đo được |
+|---|---|---|
+| Exit structure: bracket SL=MAE-q25/TP=MFE-q75 → horizon exit + SL thiên tai \|MAE q05\| | −0.11R → +0.017R | +0.13R — bracket khơi SL 26-47% lệnh là chỗ rò lớn nhất |
+| Cost structure: all-taker RT 0.127% → maker/maker RT ~0.036% (exit limit trade-through, fill 96-99.8% đo được) | +0.017R → +0.024R | costR giảm ~50%; VAL loss giảm một nửa |
+| Account structure: percent-risk (notional 5.3 sát minNotional) → governed sizing (worst-case cap 3%, floor minNotional + guard) | n=0/reject → n đầy đủ | cho phép lớp wide-stop tồn tại |
+| Breadth: 4 → 8 symbol ensemble (H2b replicate 8/8: +ADA t=7.3, LINK t=6.7, XRP t=6.0, BNB t=4.9) | CI [0.0043,0.0326] → [0.0061,0.0423] | CI chặt hơn, n 4,4k → 8,3k |
+
+Chuỗi 3 segment của cấu hình tốt nhất (ensemble-8, maker/maker, governed):
+- TRAIN 2020-10→2023-06: **+0.0235R, CI [+0.0061, +0.0423] > 0, n=8,252, +412 USDT/8×$50 (~+23%/năm), DD 12.6%, PF 1.15** — dương có ý nghĩa NHƯNG dưới gate 0.05R.
+- VAL 2023-07→2024-06: −0.0084R (âm nhẹ).
+- OOS1 2024-07→2025-08 (one-shot): +0.0019R, CI chứa 0 — breakeven.
+
+Điều ĐÃ THỬ và KILL ở Wave 3: confluence H2b×premium<0.25×ATR-tuyệt-đối (H3W: +0.368% @4h < 0.55% cần thiết — premium-low pha loãng, gate ATR tuyệt đối 0.40% quá lỏng do vol nền 2021-22 cao).
+
+**Hai bức tường định lượng chốt bản án (không phụ thuộc tuning):**
+1. Gate 0.05R ⇔ drift×capture − RT > 0.05×sl ⇒ drift > ~0.8%/event với sl 6–11% — chỉ tier cực đoan đạt và không bền qua segment.
+2. Regime dependence: edge sống ở vol stress (2020-22; AVAX OOS1 +0.097R đúng các đợt spike), chết ở grind (VAL, OOS1 ≈ 0). Không cấu trúc nào đã test khắc phục được mà không hy sinh tần suất.
+
 
 Chương trình nghiên cứu Wave 1 (M0→M5 funnel tới cổng go/no-go số 0) đã chạy ĐỦ theo PLAN:
 mọi giả thuyết có tiêu chí pass/fail viết trước khi test (luật 13), mọi kết quả kể cả chết
