@@ -1,1 +1,1 @@
-# sol-usdt-future
+# eth-usdt-future
