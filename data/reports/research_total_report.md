@@ -295,3 +295,53 @@ stress-attribution framework tái sử dụng cho mọi giả thuyết tương l
 (đã đo: chỉ 2021); (b) đổi venue/fee tier (renegotiate RT) — cùng cấu trúc trên sẽ khác phép
 chiếu; (c) dự án nghiên cứu mới với source data MỚI (Deribit H8); (d) dừng — dùng repo làm
 đổi nền tảng research.
+
+## 14. W8 — Audit phí/code + lớp TREND/MOMENTUM user chủ động yêu cầu (2026-09-21)
+
+### 14a. Kết quả audit (user yêu cầu kiểm tra lại trước khi thử chiến lược mới)
+
+- **Phí đúng thực tế.** Config VIP0 + BNB −10% (maker 0.018% / taker 0.045%) khớp lịch phí
+  Binance USDT-M 2026 cho regular user (0.02%/0.05%; VIP0 đúng với vốn $50). Slippage KHÔNG
+  giả định — đo từ aggTrades thật 30 ngày: Roll spread median 1.01 bps → taker slippage
+  ≈ 1.19 bps (half-spread + impact Q2), stop-slippage mult 1.03 (đo burst 1s trong bar
+  ≥3×ATR5m; V1 từng giả định 1.5). Funding = rate THẬT từng mốc settle, không BNB-discount
+  (đúng — funding không phải fee). Sensitivity ±50% fee_scale có chạy song song.
+  Điểm lạc quan còn lại (đã ghi nhận): stop-mult 1.03 đo trong cửa sổ 2026-08/09 khá yên —
+  trong cascade thật có thể lớn hơn, nhưng biên ~1.2 bps so SL 0.4–4% là bậc thứ cấp.
+- **Code đúng.** 34/34 tests pass. Kiểm tra thủ công engine: taker entry tại close bar
+  signal, thoát quét từ bar KẾ (không lookahead); maker post-only fill rule trade-through
+  (bảo thủ hơn touch-fill vectorbt); same-bar SL+TP chạy bound sl_first (bi quan) là báo
+  cáo chính; SL gap-aware (khớp tại open khi gap xuyên); percent-risk sizing floor lot,
+  minNotional, cap 5×; funding sign đúng chiều (long trả khi rate>0). Hai xấp xỉ disclosed:
+  funding tính trên notional entry (không mark-từng-kỳ — sai số bậc hai), equity theo
+  trade-close (DD intrabar thấp hơn thực).
+- **Chiến lược fade được code đúng như mô tả.** Script OOS2 = cấu hình frozen W5b nguyên văn
+  (BTC −2σ + atrRank>0.70 + ATR≥0.8% gate, SL=|MAE q05| TRAIN per-symbol, holding 48,
+  governed sizing, maker-exit, EOD-flat); số liệu file khớp ledger/memory (n=185,
+  expR −0.0724, CI[−0.128,+0.0016], PF 0.5168, net −17.54 USDT). Decay tuần tự
+  +0.055→+0.014→+0.038→−0.072 là hiện tượng thị trường, không phải artifact code.
+
+### 14b. W8 — 12 atom trend/momentum/breakout từ bộ chỉ báo phổ biến (user request)
+
+Lớp MỚI (trend-continuation, khác fade đã NO-GO). 12 atom pre-registered (segment mới
+`WAVE4_trend_2020-10_2024-06`): EMA-stack pullback 5m (EMA2400≈EMA200@1h + EMA20/50 + VWAP
+phiên + RSI confirm), VWAP-reclaim + volume, MACD(12,26,9) cross theo EMA200(1h),
+Donchian-240-bar breakout + volume, RSI50-cross theo EMA200, ADX>25 DI breakout — mỗi atom
+long/short. Tiêu chí M2.5 mặc định (excess ≥0.05% @horizon, t ≥ 2, CI95 lo>0 trên TRAIN;
+VAL cùng dấu). **Kết quả: 12/12 KILL ngay ở tầng drift trên TRAIN.** Drift dương có nhưng
+yếu (pullback +0.013…0.023% @+1h t≈1.1–2.0; RSI50-trend +0.109% @+4h nhưng t=1.2;
+MACD/Donchian/ADX/VWAP ≈ 0 hoặc âm; ADX-break short t=−2.2 — ngược giả thuyết). Chi tiết:
+`data/reports/w8_indicator_atoms.json`.
+
+Diagnostic implementation (KHÔNG phải ứng viên — chỉ định lượng gross→net sau phí thật, trên
+2 atom đại diện, derive SL/TP đúng công thức framework): bộ intraday EMA-stack pullback
+long TRAIN taker: gross +0.003R → net −0.030R (cost 0.032R; PF 0.82; maker −0.044R);
+short tương tự; VAL cùng dấu âm. Bộ swing RSI50+EMA200 1h long TRAIN taker: gross +0.001R →
+net −0.017R; VAL +0.007R (n=244) — không qua gate TRAIN, không còn holdout sạch để xác nhận
+(OOS1/OOS2 đã tiêu cho lớp fade). Chi tiết: `data/reports/w8_impl_diagnostic.json`.
+
+**Bài học 24:** các bộ chỉ báo textbook (EMA stack/VWAP/MACD/RSI/ADX/Donchian+volume) trên
+SOLUSDT perp 5m–1h 2020-2024 không có drift đủ mạnh để sống sót qua chi phí VIP0 ở cấu hình
+chuẩn — chết ở tầng drift (TRƯỚC phí), đúng như khuyến nghị trong chính tài liệu user:
+"không có chỉ báo nào dự đoán giá chắc chắn". Tầng cơ chế (drift có điều kiện như H2b) vẫn
+là nơi duy nhất từng ra edge đo được. Ledger 79 rows (19 drift-pass / 60 kill).
