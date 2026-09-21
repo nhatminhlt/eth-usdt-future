@@ -8,6 +8,21 @@ __pycache__/
 data/*
 # ngoại lệ: báo cáo research nhỏ — hypothesis ledger + run manifest (PLAN luật 13: ledger là tài sản)
 !data/reports/
+# ngoại lệ: nền HTF ETH (mới) + BTC (so sánh) + funding — push theo yêu cầu user 2026-09-21
+# (các file 5m_enriched 131–142MB VƯỢT limit 100MB/file của GitHub — vẫn bỏ)
+!data/BTCUSDT_1h.parquet
+!data/BTCUSDT_1d.parquet
+!data/BTCUSDT_1h_enriched.parquet
+!data/BTCUSDT_1d_enriched.parquet
+!data/ETHUSDT_15m.parquet
+!data/ETHUSDT_1h.parquet
+!data/ETHUSDT_4h.parquet
+!data/ETHUSDT_1d.parquet
+!data/ETHUSDT_15m_enriched.parquet
+!data/ETHUSDT_1h_enriched.parquet
+!data/ETHUSDT_4h_enriched.parquet
+!data/ETHUSDT_1d_enriched.parquet
+!data/funding/
 # Python build artifacts
 *.egg-info/
 build/
