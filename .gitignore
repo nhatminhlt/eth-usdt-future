@@ -23,6 +23,13 @@ data/*
 !data/ETHUSDT_4h_enriched.parquet
 !data/ETHUSDT_1d_enriched.parquet
 !data/funding/
+# ngoại lệ: ETH 5m raw monthly — tải đủ 2020-09 (thiếu trước đây) + push theo yêu cầu user 2026-09-22
+# (5m_enriched ~146MB vẫn vượt limit 100MB/file GitHub — chỉ để local)
+!data/klines/
+data/klines/*
+!data/klines/5m/
+data/klines/5m/*
+!data/klines/5m/ETHUSDT-5m-*.parquet
 # Python build artifacts
 *.egg-info/
 build/
