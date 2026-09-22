@@ -30,6 +30,18 @@ data/klines/*
 !data/klines/5m/
 data/klines/5m/*
 !data/klines/5m/ETHUSDT-5m-*.parquet
+# BTC kline monthly (5m/15m/4h) — push theo yêu cầu user 2026-09-22 (1h/1d đã có file đơn trong git)
+!data/klines/5m/BTCUSDT-5m-*.parquet
+!data/klines/15m/
+data/klines/15m/*
+!data/klines/15m/BTCUSDT-15m-*.parquet
+!data/klines/4h/
+data/klines/4h/*
+!data/klines/4h/BTCUSDT-4h-*.parquet
+!data/BTCUSDT_15m.parquet
+!data/BTCUSDT_4h.parquet
+# Kronos (HuggingFace): model gốc 409MB giữ local — chỉ push các part chia nhỏ <100MB/file
+models/Kronos-base/model.safetensors
 # Python build artifacts
 *.egg-info/
 build/
