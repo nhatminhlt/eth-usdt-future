@@ -40,6 +40,8 @@ data/klines/4h/*
 !data/klines/4h/BTCUSDT-4h-*.parquet
 !data/BTCUSDT_15m.parquet
 !data/BTCUSDT_4h.parquet
+# tail tháng đang chạy (REST, nến đóng) — tháng 10 thay bằng monthly zip đầy đủ rồi xoá tail
+!data/BTCUSDT_5m_2026-09-tail.parquet
 # Kronos (HuggingFace): model gốc 409MB giữ local — chỉ push các part chia nhỏ <100MB/file
 models/Kronos-base/model.safetensors
 # Python build artifacts
